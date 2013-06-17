@@ -1,0 +1,14 @@
+<div class="center hero-unit">
+  <% if !signed_in? %>
+    <h1>Welcome to SolveIT</h1>
+    <h2>Some description</h2>
+    
+    <%= link_to "Sign up now!", signup_path, class: "btn btn-large" %>
+  <% else %>
+    <h1> My Projects </h1>
+    <%= link_to "Create new project!", new_project_path, class: "btn btn-large", id: "new_proj" %>
+    <ul style="text-align: left">
+    <%= render current_user.projects_as_creator %>
+    </ul>
+  <% end %>
+</div>

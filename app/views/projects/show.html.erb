@@ -1,0 +1,37 @@
+<% provide(:title, "Project '#{@project.title}'") %>
+
+<h1><%= @project.title %></h1>
+
+<%= link_to "Edit", edit_project_path(@project), class: "btn", id: "edit_project_btn" %>
+
+
+<div class="row">
+  <h3>Description</h3>
+  <pre contenteditable="true" class="red-autosave" 
+       data-record-cls="Project"
+       data-field-name="description"
+       data-record-id="<%= @project.id %>"><%= @project.description.html_safe %></pre>  
+</div>
+
+<div class="row">
+  <h3>Content</h3>
+  
+  <div class="project-blocks span3">
+      
+      <%= render :partial => 'blocks_toolbar' %>
+      <div class="blocks" id="project-blocks">
+        <%= render :collection => @project.blocks, :partial => "block" %>
+      </div>
+      
+    </div>
+    <div class="span9">
+      center
+    </div>
+    
+</div>
+<!-- 
+<div class="container-fluid">
+  <div class="row-fluid">
+    
+  </div>
+</div> -->

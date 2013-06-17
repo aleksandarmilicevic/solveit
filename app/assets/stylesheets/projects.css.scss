@@ -1,0 +1,30 @@
+#edit_project_btn {
+  float: right;
+  margin-top: 0px;
+}
+
+.project-blocks {
+  .btn-group {
+    float: right;
+  }
+}
+
+.block {
+  @extend .btn;
+  
+  margin-left: 2px;
+  font-weight: normal;
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background-color: white;
+}
+
+.block-selected {
+  font-weight: bold !important;
+}
+
+#new_proj {
+  float: right;
+}

@@ -1,0 +1,49 @@
+<!-- 
+<p class="notice"><%= notice %></p>
+<p class="alert"><%= alert %></p> 
+-->
+
+<header class="navbar navbar-fixed-top navbar-inverse">
+  <div class="navbar-inner">
+    <div id="header_container" class="container">
+      <%= link_to "SolveIT", root_path, id: "logo" %>
+      <nav>
+        <ul id="header_menu" class="nav pull-right">
+          <li><%= link_to root_path, class: "menu_item" do %>
+                <i class="icon-home icon-white"></i> Home
+              <% end %>
+          </li>
+          <li><%= link_to '#', class: "menu_item" do %>
+                 <i class="icon-question-sign icon-white"></i> Help
+              <% end %>
+          </li>
+          <% if signed_in? %>
+            <li id="fat-menu" class="dropdown">
+              <a href="#" class="menu_item dropdown-toggle" data-toggle="dropdown">
+                <%= render :partial => 'shared/user_logo', :locals => {:user => current_user} %> 
+                <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                <li><%= link_to current_user do %>
+                    <i class="icon-user"></i> Profile
+                    <% end %>
+                </li>
+                <li><%= link_to edit_user_path(current_user) do %>
+                    <i class="icon-edit"></i> Settings
+                    <% end %>
+                </li>
+                <li class="divider"></li>
+                <li><%= link_to signout_path, method: "delete" do %>
+                    <i class="icon-remove-sign"></i> Sign out
+                    <% end %>
+                </li>
+              </ul>
+            </li>
+          <% else %>
+            <li><%= link_to "Sign in", signin_path, class: "menu_item" %></li>
+          <% end %>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
