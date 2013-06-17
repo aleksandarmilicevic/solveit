@@ -6,7 +6,11 @@
        data-param-title="<new section>">
          <i class="icon-plus"></i>
     </a>
-    <a class="btn" href="#"><i class="icon-minus"></i></a>
+    <a id="delete_block" class="btn" href="#" 
+       data-trigger-event="DeleteRecords"
+       data-param-targets="${getSelectedBlockRecords()}">
+         <i class="icon-minus"></i>
+    </a>
   </div>
   <h4>Sections</h4>
 </div>

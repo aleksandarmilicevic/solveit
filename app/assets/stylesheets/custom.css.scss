@@ -166,18 +166,11 @@ footer {
   }
 }
 
-.red-updating {
-  opacity: 0.5;
-}
+/* autosave */
 
-.red-update-ok {
-  background-color: $successBackground !important;
-  border: 1px solid $successBorder;
-}
-
-.red-update-fail {
-  background-color: $errorBackground !important;
-  border: 1px solid $errorBorder;
+[contenteditable="true"]:active,
+[contenteditable="true"]:focus {
+  outline:inherit;
 }
 
 /* forms */

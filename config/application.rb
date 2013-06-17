@@ -31,7 +31,7 @@ module SolveIT
     config.autoload_paths += %W(#{config.root}/lib)
     config.autoload_paths << red_root.join("lib")
     config.paths["app/controllers"] << red_root.join("app", "controllers")
-    # config.paths["app/views"] << red_root.join("app", "views")
+    config.paths["app/views"] << red_root.join("app", "views")
     config.paths["app/assets"] << red_root.join("app", "assets")
 
     # Only load the plugins named here, in the order given (default is alphabetical).

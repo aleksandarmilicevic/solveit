@@ -3,6 +3,10 @@
   margin-top: 0px;
 }
 
+#project_title {
+  padding: 4px 10px 4px 10px;
+}
+
 .project-blocks {
   .btn-group {
     float: right;
@@ -24,6 +28,11 @@
 .block-selected {
   font-weight: bold !important;
 }
+
+.block:hover, .block:focus {
+  text-decoration: none;
+}
+
 
 #new_proj {
   float: right;
