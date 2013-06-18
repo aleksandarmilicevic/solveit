@@ -1,3 +1,5 @@
+@import "red-mixins";
+
 #edit_project_btn {
   float: right;
   margin-top: 0px;
@@ -7,15 +9,23 @@
   padding: 4px 10px 4px 10px;
 }
 
-.project-blocks {
+.block-toolbar {
+  h4 {
+    @include va-center;
+  }
+  
   .btn-group {
-    float: right;
+    float: none;
+    @include va-center;
+    margin-left: 10px;
+  }
+  
+  .btn {
+    padding: 1px 3px 1px 3px;
   }
 }
 
 .block {
-  @extend .btn;
-  
   margin-left: 2px;
   font-weight: normal;
   display: block;

@@ -1,16 +1,17 @@
-<div class="btn-toolbar">
+<div class="btn-toolbar block-toolbar">
+  <h4>Sections</h4>
   <div class="btn-group">
-    <a id="create_block" class="btn" href="#" 
+    <a id="create_block" class="btn toolbar-btn" href="#" title="Create new section"
        data-trigger-event="CreateProjectBlock"
-       data-param-project="<%= @project.id %>"
+       data-param-project="${new Project(<%= @project.id %>)}"
        data-param-title="<new section>">
          <i class="icon-plus"></i>
     </a>
-    <a id="delete_block" class="btn" href="#" 
+    <a id="delete_block" class="btn toolbar-btn" href="#" title="Delete selected sections"
+       disabled="disabled"
        data-trigger-event="DeleteRecords"
        data-param-targets="${getSelectedBlockRecords()}">
          <i class="icon-minus"></i>
     </a>
   </div>
-  <h4>Sections</h4>
 </div>

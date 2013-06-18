@@ -30,6 +30,15 @@ $(function() {
     var unselectBlock     = function(blck) { blck.removeClass(blockSelectedCls); }
     var isBlockSelected   = function(blck) { return blck.hasClass(blockSelectedCls); }
     var toggleSelection   = function(blck) { if (isBlockSelected(blck)) unselectBlock(blck); else selectBlock(blck); }
+    var refreshDeleteBtn  = function()     { 
+        if (getSelectedBlocks().size() > 0) $("#delete_block").removeAttr('disabled')
+        else                                $("#delete_block").attr('disabled', 'disabled'); 
+    };
+    var refreshCurrentSection = function() {};
+    var sectionChanged = function() {
+        refreshDeleteBtn();
+        refreshCurrentSection();
+    };
     
     /* ------------------------------------------------------------
      * Handles the "click" event for all ".block" events. 
@@ -46,6 +55,7 @@ $(function() {
             unselectBlock($elem.parent().find(".block"));
             selectBlock($elem);
         }
+        sectionChanged();
     });
     
     /* ------------------------------------------------------------
@@ -96,12 +106,14 @@ $(function() {
     });
     
     $("#delete_block").on("DeleteRecordsDone", function(event, response){
+        // TODO: read the response to see which sections got deleted, as oppose to deleting the current selection.
         var selectedBlocks = getSelectedBlocks();
         if (selectedBlocks.size() == 0) return;
         selectedBlocks.animate({
             opacity: 0.0,            
         }, fadeDuration, function() {
             selectedBlocks.detach();
+            sectionChanged();
         });
         
     });
