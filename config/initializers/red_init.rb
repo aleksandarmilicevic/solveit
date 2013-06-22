@@ -5,6 +5,8 @@ Red.configure do |c|
   c.view_paths = Rails.configuration.paths["app/views"]
 
   c.autoviews = false
+  c.pusher.push_server    = "http://yellow-wasp.csail.mit.edu:9292/faye"
+  c.pusher.push_client_js = "http://yellow-wasp.csail.mit.edu:9292/faye.js"
 
   c.alloy.inv_field_namer = lambda { |fld| 
     default_name = "#{fld.parent.red_table_name}_as_#{fld.name.singularize}"
