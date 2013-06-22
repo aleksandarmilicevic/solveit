@@ -1,4 +1,5 @@
 @import "red-mixins";
+@import "mixins";
 
 #edit_project_btn {
   float: right;
@@ -43,7 +44,28 @@
   text-decoration: none;
 }
 
+#no_block_selected {
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+}
 
 #new_proj {
   float: right;
+}
+
+#block_content_toolbar {
+  float: right;
+  text-align: right;
+  padding: 10px;
+}
+
+#block_content {
+  .plain_text_item_edit, .html_item_edit {
+      padding: 5px;
+  }
+
+  .html_item_edit {
+      border: 1px solid gray;
+  }
 }

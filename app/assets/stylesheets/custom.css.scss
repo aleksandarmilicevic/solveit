@@ -1,19 +1,6 @@
 @import "bootstrap";
+@import "mixins";
 
-/* mixins, variables, etc. */
-
-$grayMediumLight: #eaeaea;
-
-@mixin box_sizing {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-@mixin inline-blck {
-  display: inline-block;
-  vertical-align: middle;
-}
 
 /* universal */
 

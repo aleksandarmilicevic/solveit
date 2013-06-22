@@ -3,9 +3,11 @@ SolveIT::Application.routes.draw do
   root :to => "home#index"
 
   match 'event' => 'event#index'  
+  match 'recordRenderer' => 'recordRenderer#index'  
 
   resources :users
   resources :projects
+  resources :blocks
   resources :sessions, only: [:new, :create, :destroy]
 
   match '/signup',  to: 'users#new'
