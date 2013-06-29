@@ -6,7 +6,8 @@
        data-trigger-event="CreateRecordAndLink"
        data-param-className="PlainText"
        data-param-target="${new Block(<%= @block.id %>)}"
-       data-param-fieldName="items">
+       data-param-fieldName="items"
+       data-param-saveRecord="true">
          Text
     </a>
     <a id="create_html_item" class="btn toolbar-btn" href="#" 
@@ -14,7 +15,8 @@
        data-trigger-event="CreateRecordAndLink"
        data-param-className="HTMLText"
        data-param-target="${new Block(<%= @block.id %>)}"
-       data-param-fieldName="items">
+       data-param-fieldName="items"
+       data-param-saveRecord="true">
          Rich Text
     </a>
     <a id="create_html_item" class="btn toolbar-btn" href="#" 
@@ -22,7 +24,8 @@
        data-trigger-event="CreateRecordAndLink"
        data-param-className="Figure"
        data-param-target="${new Block(<%= @block.id %>)}"
-       data-param-fieldName="items">
+       data-param-fieldName="items"
+       data-param-saveRecord="true">
          Figure
     </a>
   </div>

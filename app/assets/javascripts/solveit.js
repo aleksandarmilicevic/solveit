@@ -40,6 +40,30 @@ $(function() {
         else                                $("#delete_block").attr('disabled', 'disabled'); 
     };
 
+    var createInvisibleElem = function(html) {
+        var aux = $("<div></div>");
+        aux.hide();
+        aux.html(html);
+        return aux;
+    };
+
+    var chainActions = function(actions, hash) {
+        return function() {
+            if (actions.length == 0) throw new Error("0 actions not allowed");
+            var action = actions.shift();
+            action()
+                .done(function(r){
+                    if (actions.length == 0) {
+                        if (hash.done) hash.done(r);
+                    } else {  
+                        chainActions(actions, hash)();
+                    }
+                })
+                .fail(function(r)   { if (hash.fail) hash.fail(r);})
+                .always(function(r) { if (hash.always) hash.always(r);});
+        };
+    };
+
     var asyncUpdate = function($elem, cls, hash) {
         var oldHtml = $elem.html();
         var updatingCls = cls + "-updating";
@@ -49,24 +73,28 @@ $(function() {
         var duration = hash.duration || 200; 
         var timeout = hash.timeout || 800;
 
+        var actions = hash.actions || [hash.action];
         $elem.addClass(updatingCls, "fast", function(){
-            hash.action()
-                .done(function(r) {
+            chainActions(actions, {
+                done: function(r) {
                     $elem.removeClass(updatingCls);
                     if (hash.done) { hash.done(r); } else { $elem.html(r); }
                     $elem.addClass(okCls, duration, function() {
                         setTimeout(function() {$elem.removeClass(okCls);}, timeout); 
                     });
-                }).fail(function(r) {
+                }, 
+                fail: function(r) {
                     $elem.removeClass(updatingCls);
                     if (hash.fail) { hash.fail(r); }
                     $elem.addClass(failCls, duration, function() {
                         setTimeout(function() {$elem.removeClass(failCls);}, timeout); 
                     });
-                }).always(function() {
+                },
+                always: function(r) {
                     $elem.removeClass(updatingCls);
                     if (hash.always) { hash.always(r); }
-                });
+                }
+            })();
         });        
     };
 
@@ -183,7 +211,7 @@ $(function() {
                 as: "item"
             }); }, 
             done:   function(html) {
-                newItem = $(html);
+                var newItem = $(html);
                 newItem.hide();
                 newItemDiv.replaceWith(newItem);
                 newItem.fadeIn(fadeDuration);
@@ -213,20 +241,37 @@ $(function() {
         return false;
     });
 
-    var figureImgSel = "#block_items img.figure";
+    var figureImgSel = "#block_items .upload-figure";
     $(document).on("UploadFigureTriggered", figureImgSel, function(e, redEvent){
         var $elem = $(this);
         var container = $elem.parent();
-        asyncUpdate(container, "figure-img", {
-            action: function() { return redEvent.fire(); }, 
-            done:   function(r) {
-                // refresh image
-                var src = $elem.attr("src").replace(/&salt=.*$/, "");
-                $elem.attr("src", src+"&salt="+(new Date().getTime()));
-                console.debug("Success!1111111111");
+        var loadingDiv = container.parent().find(".loadingDiv");
+        loadingDiv.show();
+        asyncUpdate(container, "fig-img", {
+            actions: [
+                function() { return redEvent.fire(); }, 
+                function() { 
+                    var fig = Red.Utils.readParamValue($elem, "data-param-figure");
+                    return Red.Utils.remoteRenderRecord(fig, {
+                        partial: "items/fig-image",
+                        as: "item"
+                    });
+                }
+            ],
+            done:   function(html) {
+                console.debug("Successfully uploaded and reloaded image");
+                var topElem = container;
+                topElem.after(html);
+                var repl = topElem.next();
+                repl.hide();
+                topElem.detach();
+                repl.fadeIn(fadeDuration);
             }, 
             fail :  function(r) {
-                console.debug("fail@@@@@@@@@@@@@@@p");
+                console.debug("Failed to upload and reload image");
+            },
+            always : function(r) {
+                loadingDiv.hide();
             }
         });
         return false;

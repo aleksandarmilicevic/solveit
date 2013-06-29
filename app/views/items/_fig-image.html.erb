@@ -1,0 +1,22 @@
+<%# @param item [Figure] %>
+
+<div class="figure-container">
+  <button class="upload-figure"
+          data-for-img="figure-<%=item.id%>"
+          data-trigger-event="UploadFigure"
+          data-param-figure="${new Figure(<%=item.id%>)}">
+    <i class="icon-upload"></i>
+  </button>
+  <img id="figure-<%=item.id%>"
+       src="<%= item.image ? "/fetchFigure?id=#{item.id}" : '#'%>" 
+       alt="<%= item.image.file.filename rescue 'no image uploaded' %>"
+       style="<%= item.image_gui_style %>"
+       class="figure">
+  </img>
+  <% if item.image %>
+    <script>
+    $("#figure-<%=item.id%>").resizable({aspectRatio: <%= item.image.aspect_ratio  %>});
+    </script>
+  <% end %>
+</div>
+

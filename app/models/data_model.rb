@@ -67,8 +67,9 @@ Red::Dsl.data_model do
 
     def image_gui_style
       #TODO read from gui_settings
-      return "" unless image
-      "width: #{100*image.aspect_ratio}px; heigh: 100px"
+      h = 100;
+      ar = image ? image.aspect_ratio : 1
+      "width: #{h*ar}px; heigh: #{h}px"
     end
   end
   
