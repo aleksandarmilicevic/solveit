@@ -60,12 +60,83 @@
   padding: 10px;
 }
 
+.project-blocks {
+  width: 13%;
+  float: left;
+}
+
 #block_content {
+  width: 83%;
+  float: right;
+  
+  #block_items {
+    width: 100%;
+    height: 200px;
+    resize: vertical;
+    overflow-y: scroll;
+  }
+
+  .block_item {
+    margin: 5px;
+    float: left;
+    clear: none;
+    padding: 5px;
+    border: 1px solid $gray;
+    @include border-radius(5px);
+  }
+
+  .block_item_header {
+    @include border-radius(5px);
+    margin-bottom: 10px;
+    cursor: move;
+  }
+
+  .to_right{ 
+    float: right; 
+    @include inline-blck;
+  }
+
+  .item_title {
+    text-align: left;
+    font-weight: normal;
+    margin-left: 5px;
+    font-size: 14px;
+    @include inline-blck;
+  }
+
+  .delete_item_button {
+    padding: 0px;
+    margin: 10px;
+    font-size: 12px;
+  }
+
   .plain_text_item_edit, .html_item_edit {
-      padding: 5px;
+    padding: 5px;
+    margin: 0px;
+    margin-right: 5px;
+    resize: both;
+    overflow: auto;
+    cursor: pointer;
+    min-width: 140px;
+    @include inline-blck;
+    @include no-decoration;
   }
 
   .html_item_edit {
-      border: 1px solid gray;
+  }
+
+  .plain_text_item_edit {
+  }
+
+  .item_img {
+    cursor: pointer;
   }
 }
+
+img.figure {
+  width: 300px;
+  height: auto;
+  min-height: 100px;
+  min-width: 100px;
+}
+

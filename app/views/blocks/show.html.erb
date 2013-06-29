@@ -20,10 +20,10 @@
     <a id="create_html_item" class="btn toolbar-btn" href="#" 
        title="Create new item rich text item"
        data-trigger-event="CreateRecordAndLink"
-       data-param-className="Image"
+       data-param-className="Figure"
        data-param-target="${new Block(<%= @block.id %>)}"
        data-param-fieldName="items">
-         Image
+         Figure
     </a>
   </div>
 
@@ -31,5 +31,6 @@
 <h4><%= @block.title %></h4>
 
 <div id="block_items">
+  <div style="height: 5000px; width: 1px; float: right"></div>
   <%= render :collection => @block.items, :partial => "items/item", :as => "item" %>
 </div>

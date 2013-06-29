@@ -33,6 +33,7 @@ $(function() {
     var toggleSelection   = function(blck) { if (isBlockSelected(blck)) unselectBlock(blck); else selectBlock(blck); };
 
     var getBlockContentDOM = function() { return $("#block_content"); };
+    var getBlockItemsDOM = function() { return $("#block_items"); };
 
     var refreshDeleteBtn  = function()     { 
         if (getSelectedBlocks().size() > 0) $("#delete_block").removeAttr('disabled'); 
@@ -76,8 +77,12 @@ $(function() {
             getBlockContentDOM().html("<div id=\"no_block_selected\">Please select a section on the left...</div>");
         } else {
             asyncUpdate(getBlockContentDOM(), "block", {
-                action: function() { return Red.Utils.remoteAction("/blocks/" + blocks[0].id + "?partial"); }, 
-                fail:   function() { getBlockContentDOM().html("Failed to load block content"); }
+                action: function() { 
+                    return Red.Utils.remoteAction("/blocks/"+blocks[0].id+"?partial");
+                }, 
+                fail:   function() { 
+                    getBlockContentDOM().html("Failed to load block content"); 
+                }
             });
         }
     };
@@ -171,20 +176,72 @@ $(function() {
         var item = Red.createRecord(itemCls, itemId);
         
         var newItemDiv = $('<div></div>');
-        getBlockContentDOM().append(newItemDiv);
+        getBlockItemsDOM().append(newItemDiv);
         asyncUpdate(newItemDiv, "block", {
             action: function() { return Red.Utils.remoteRenderRecord(item, {
                 partial: "items/item",
                 as: "item"
             }); }, 
             done:   function(html) {
-                newItemDiv.replaceWith(html);
+                newItem = $(html);
+                newItem.hide();
+                newItemDiv.replaceWith(newItem);
+                newItem.fadeIn(fadeDuration);
             },
             fail:   function(response) { 
                 newItemDiv.html("Failed to load item content"); 
             }
         });        
     });
+
+    var delItemSel = "#block_items [data-trigger-event='DeleteRecord']";
+    $(document).on("DeleteRecordTriggered", delItemSel, function(e, redEvent){
+        var containerId = $(this).attr('data-container-id');
+        var container = $("#" + containerId);
+        var titleElem = container.find(".item_title");
+        titleElem.html("Deleting...");
+        asyncUpdate(container, "item", {
+            action: function() { return redEvent.fire(); }, 
+            done:   function(r) {
+                titleElem.html("Success!");
+                container.fadeOut(fadeDuration, function() {container.detach();});
+            }, 
+            fail :  function(r) {
+                titleElem.html("Failed to delete item!");
+            }
+        });
+        return false;
+    });
+
+    var figureImgSel = "#block_items img.figure";
+    $(document).on("UploadFigureTriggered", figureImgSel, function(e, redEvent){
+        var $elem = $(this);
+        var container = $elem.parent();
+        asyncUpdate(container, "figure-img", {
+            action: function() { return redEvent.fire(); }, 
+            done:   function(r) {
+                // refresh image
+                var src = $elem.attr("src").replace(/&salt=.*$/, "");
+                $elem.attr("src", src+"&salt="+(new Date().getTime()));
+                console.debug("Success!1111111111");
+            }, 
+            fail :  function(r) {
+                console.debug("fail@@@@@@@@@@@@@@@p");
+            }
+        });
+        return false;
+    });
+
+
+    /* ==========================================================
+     * Image upload
+     *
+     *  - on click                  : upload image via ajax
+     * ========================================================== */
+    $(document).on("click", ".item_img", function(e){
+        return false;
+    });
+
 });
 
 

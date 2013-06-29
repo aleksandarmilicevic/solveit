@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130616183852) do
+ActiveRecord::Schema.define(:version => 20130628231925) do
 
   create_table "auth_users", :force => true do |t|
     t.string   "name"
@@ -34,6 +34,16 @@ ActiveRecord::Schema.define(:version => 20130616183852) do
     t.integer "item_id"
   end
 
+  create_table "file_records", :force => true do |t|
+    t.binary   "content"
+    t.string   "content_type"
+    t.integer  "size"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.string   "filename"
+    t.string   "filepath"
+  end
+
   create_table "group_member_tuples", :force => true do |t|
     t.integer  "group_0_id"
     t.integer  "role_1_id"
@@ -50,14 +60,40 @@ ActiveRecord::Schema.define(:version => 20130616183852) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "items", :force => true do |t|
-    t.string   "text"
-    t.string   "html"
-    t.string   "url"
-    t.string   "type"
+  create_table "hash_entry_records", :force => true do |t|
+    t.string   "key"
+    t.string   "value"
+    t.integer  "hash_records_as_entry_id"
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
+  end
+
+  create_table "hash_records", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "image_records", :force => true do |t|
+    t.integer  "file_id"
+    t.integer  "width"
+    t.integer  "height"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.string   "img_type"
+  end
+
+  create_table "items", :force => true do |t|
+    t.string   "text"
+    t.string   "html"
+    t.string   "type"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.integer  "image_id"
+    t.integer  "gui_settings_id"
+  end
+
+  add_index "items", ["gui_settings_id"], :name => "index_items_on_gui_settings_id"
+  add_index "items", ["image_id"], :name => "index_items_on_image_id"
 
   create_table "projects", :force => true do |t|
     t.integer  "creator_id"

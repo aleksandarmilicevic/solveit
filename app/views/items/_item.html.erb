@@ -1,4 +1,30 @@
-<%= render :partial => "items/#{item.class.name.underscore}",
-           :object => item, 
-           :as => "item" %>
+<div class="block_item ui-widget ui-resizable ui-draggable" id="item-<%= item.id %>">
+  <div class="ui-widget-header block_item_header">
+    <div class="item_title">
+      <%= h item.class.relative_name %>
+    </div>
+    <div class="to_right">
+      <a href="#" class="delete_item_button"
+         data-trigger-event="DeleteRecord"
+         data-param-target="${Red.createRecord('<%= item.class.relative_name %>', <%= item.id %>)}"
+         data-container-id="item-<%= item.id %>"><i class="icon-remove"></i></a>
+    </div>
+  </div>
 
+  <div class="block_item_content">
+  <%= render :partial => "items/#{item.class.name.underscore}",
+             :object => item, 
+             :as => "item" %>
+  </div>
+
+  <script type="text/javascript">
+    $("#item-<%= item.id %>").draggable({
+      // handle: ".block_item_header",
+      cancel: ".block_item_content",
+      containment: "parent", 
+      scroll: true, 
+      scrollSensitivity: 20,
+      scrollSpeed: 20
+    });
+  </script>
+</div>

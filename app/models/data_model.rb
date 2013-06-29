@@ -1,5 +1,7 @@
 require 'red/stdlib/web/auth/model'
 require 'red/stdlib/crud/model'
+require 'red/stdlib/util/image'
+require 'red/stdlib/util/hash_record'
 
 include RedLib::Web::Auth
 include RedLib::Crud
@@ -39,8 +41,17 @@ Red::Dsl.data_model do
   } do
     # TODO validates :projects_as_block, :non_empty
   end
+
+  # record Comment, {
+  #   sender: User, 
+  #   message: Text
+  # }
   
-  abstract(record Item)
+  abstract {
+    record Item, {
+      gui_settings: RedLib::Util::HashRecord
+    }           
+  }
   
   record PlainText < Item, {
     text: String,
@@ -50,8 +61,15 @@ Red::Dsl.data_model do
     html: String,
   }
   
-  record Image < Item, {
-    url: String
-  }
+  record Figure < Item, {
+    image: RedLib::Util::ImageRecord,
+  } do
+
+    def image_gui_style
+      #TODO read from gui_settings
+      return "" unless image
+      "width: #{100*image.aspect_ratio}px; heigh: 100px"
+    end
+  end
   
 end

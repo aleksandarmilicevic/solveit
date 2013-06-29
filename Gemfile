@@ -31,6 +31,12 @@ gem 'thin'
 gem 'faye'
 gem 'ember-rails'
 gem 'parser'
+#gem "paperclip", "~> 3.0"
+#gem "paperclip", :git => "git://github.com/thoughtbot/paperclip.git"
+#gem 'remotipart', '~> 1.0'
+#gem 'image_science'
+#gem 'pothoven-attachment_fu'
+gem 'imagesize'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

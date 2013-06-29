@@ -5,6 +5,8 @@ SolveIT::Application.routes.draw do
   match 'event' => 'event#index'  
   match 'recordRenderer' => 'recordRenderer#index'  
 
+  match 'fetchFigure' => 'fetchFigure#src'
+
   resources :users
   resources :projects
   resources :blocks
