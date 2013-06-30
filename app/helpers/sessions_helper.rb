@@ -16,6 +16,8 @@ module SessionsHelper
 
   def current_user=(user)
     @current_user = user
+    client.user = user
+    client.save!
   end
 
   def current_user

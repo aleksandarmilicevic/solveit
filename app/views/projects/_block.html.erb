@@ -1,4 +1,8 @@
-<a class="block red-autosave" href="#"
-   data-record-id="<%= block.id %>" 
-   data-record-cls="Block" 
-   data-field-name="title"><%= block.title %></a>
+
+<a class="block red-autotrigger" href="#"
+   data-record-id="<%= block.id %>"
+   data-event-name="LinkToRecord"
+   data-param-target="${new Block(<%= block.id %>)}"
+   data-param-saveTarget="true"
+   data-param-fieldName="title"
+   data-field-name="fieldValue"><%= block.title %></a>

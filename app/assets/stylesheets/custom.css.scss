@@ -123,6 +123,12 @@ footer {
 
 /* miscellaneous */
 
+.icon-button {
+  padding: 0px 3px 0px 3px;
+  margin: 2px;
+  border: 1px solid black;
+}
+
 .debug_dump {
   clear: both;
   float: left;
@@ -157,7 +163,7 @@ footer {
   }
 }
 
-/* autosave */
+/* autotrigger */
 
 [contenteditable="true"]:active,
 [contenteditable="true"]:focus {

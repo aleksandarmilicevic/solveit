@@ -134,10 +134,8 @@
 }
 
 img.figure {
-  width: 300px;
-  height: auto;
-  min-height: 100px;
   min-width: 100px;
+  min-height: 100px;
 }
 
 .figure-container {
@@ -149,10 +147,10 @@ img.figure {
     top: 0;
     right: 0;
     z-index: 10;
+    opacity: 0.2;
     padding: 0px 3px 0px 3px;
     margin: 2px;
     border: 1px solid black;
-    opacity: 0.2;
 
     &:hover {
       opacity: 0.7;

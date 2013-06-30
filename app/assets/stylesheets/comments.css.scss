@@ -1,0 +1,36 @@
+@import "red-mixins";
+@import "mixins";
+
+.block_item_comments {
+
+  margin-top: 5px;
+  border-top: 1px solid $grayLight;
+  font-size: 10pt;
+
+  .comments_header {
+    font-weight: bold;
+    cursor: pointer;
+  } 
+
+  .post_comment {
+    margin-top: 10px;
+    margin-bottom: 0px;
+  }
+
+  .post_comment_text {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 2px;
+  }
+
+  .comment_list {
+    display: none;
+    margin-top: 10px;
+  }
+
+  .comment {
+    margin-top: 2px;
+    margin-bottom: 2px;
+  }
+
+}

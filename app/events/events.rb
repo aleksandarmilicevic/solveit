@@ -7,7 +7,7 @@ Red::Dsl.event_model do
       }}
 
     requires {
-      check_present project
+      check_present :project
     }
 
     ensures {
@@ -37,6 +37,26 @@ Red::Dsl.event_model do
       img.save!
       figure.image = img
       figure.save!
+    }
+  end
+
+  event CreateAndAddComment do
+    params {{
+        item: Item, 
+        message: String
+      }}
+
+    requires {
+      check_all_present
+    }
+
+    ensures {
+      c = Comment.new :message => message
+      c.sender = from.user
+      c.save!
+      item.comments << c
+      item.save!
+      c
     }
   end
 

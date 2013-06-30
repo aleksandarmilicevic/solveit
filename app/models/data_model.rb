@@ -42,16 +42,20 @@ Red::Dsl.data_model do
     # TODO validates :projects_as_block, :non_empty
   end
 
-  # record Comment, {
-  #   sender: User, 
-  #   message: Text
-  # }
+  record Comment, {
+    sender: User, 
+    message: Text
+  } do
+    validates :sender, :presence => true
+    validates :message, :presence => true
+  end
   
-  abstract {
-    record Item, {
-      gui_settings: RedLib::Util::HashRecord
-    }           
-  }
+  record Item do
+    abstract
+
+    field gui_settings: RedLib::Util::HashRecord
+    field comments: (set Comment), :owned => true
+  end
   
   record PlainText < Item, {
     text: String,
@@ -67,9 +71,9 @@ Red::Dsl.data_model do
 
     def image_gui_style
       #TODO read from gui_settings
-      h = 100;
+      h = 150;
       ar = image ? image.aspect_ratio : 1
-      "width: #{h*ar}px; heigh: #{h}px"
+      "width: #{h*ar}px; height: #{h}px"
     end
   end
   

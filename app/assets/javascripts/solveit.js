@@ -40,63 +40,15 @@ $(function() {
         else                                $("#delete_block").attr('disabled', 'disabled'); 
     };
 
-    var createInvisibleElem = function(html) {
-        var aux = $("<div></div>");
-        aux.hide();
-        aux.html(html);
-        return aux;
+    var replaceWithInvisibleHtml = function($elem, html) {
+        $elem.before(html);
+        var repl = $elem.prev();
+        repl.hide();
+        $elem.detach();
+        return repl;
     };
 
-    var chainActions = function(actions, hash) {
-        return function() {
-            if (actions.length == 0) throw new Error("0 actions not allowed");
-            var action = actions.shift();
-            action()
-                .done(function(r){
-                    if (actions.length == 0) {
-                        if (hash.done) hash.done(r);
-                    } else {  
-                        chainActions(actions, hash)();
-                    }
-                })
-                .fail(function(r)   { if (hash.fail) hash.fail(r);})
-                .always(function(r) { if (hash.always) hash.always(r);});
-        };
-    };
-
-    var asyncUpdate = function($elem, cls, hash) {
-        var oldHtml = $elem.html();
-        var updatingCls = cls + "-updating";
-        var okCls = cls + "-update-ok";
-        var failCls = cls + "-update-fail";
-
-        var duration = hash.duration || 200; 
-        var timeout = hash.timeout || 800;
-
-        var actions = hash.actions || [hash.action];
-        $elem.addClass(updatingCls, "fast", function(){
-            chainActions(actions, {
-                done: function(r) {
-                    $elem.removeClass(updatingCls);
-                    if (hash.done) { hash.done(r); } else { $elem.html(r); }
-                    $elem.addClass(okCls, duration, function() {
-                        setTimeout(function() {$elem.removeClass(okCls);}, timeout); 
-                    });
-                }, 
-                fail: function(r) {
-                    $elem.removeClass(updatingCls);
-                    if (hash.fail) { hash.fail(r); }
-                    $elem.addClass(failCls, duration, function() {
-                        setTimeout(function() {$elem.removeClass(failCls);}, timeout); 
-                    });
-                },
-                always: function(r) {
-                    $elem.removeClass(updatingCls);
-                    if (hash.always) { hash.always(r); }
-                }
-            })();
-        });        
-    };
+    var asyncUpdate = Red.Utils.asyncUpdate;
 
     var refreshCurrentSection = function() {
         var blocks = getSelectedBlockRecords();
@@ -106,7 +58,11 @@ $(function() {
         } else {
             asyncUpdate(getBlockContentDOM(), "block", {
                 action: function() { 
-                    return Red.Utils.remoteAction("/blocks/"+blocks[0].id+"?partial");
+                    return Red.Utils.remoteRenderRecord(blocks[0], {
+                        partial: "blocks/block",
+                        as: "block"
+                    });
+                    //return Red.Utils.remoteAction("/blocks/"+blocks[0].id+"?partial");
                 }, 
                 fail:   function() { 
                     getBlockContentDOM().html("Failed to load block content"); 
@@ -170,7 +126,7 @@ $(function() {
         // hack to escapeHTML(title)
         var title = $('<div/>').text(response.ans.title).html();
         // TODO: this should be returned by the server by rendering the appropriate template
-        var sec = "<a class=\"block red-autosave\" href=\"#\" " +
+        var sec = "<a class=\"block red-autotrigger\" href=\"#\" " +
                       "style=\"opacity: 0\"" +
                       "data-record-id=\"" + response.ans.id + "\" " + 
                       "data-record-cls=\"Block\" " + 
@@ -211,9 +167,10 @@ $(function() {
                 as: "item"
             }); }, 
             done:   function(html) {
-                var newItem = $(html);
-                newItem.hide();
-                newItemDiv.replaceWith(newItem);
+                // var newItem = $(html);
+                // newItem.hide();
+                // newItemDiv.replaceWith(newItem);
+                var newItem = replaceWithInvisibleHtml(newItemDiv, html);
                 newItem.fadeIn(fadeDuration);
             },
             fail:   function(response) { 
@@ -261,10 +218,7 @@ $(function() {
             done:   function(html) {
                 console.debug("Successfully uploaded and reloaded image");
                 var topElem = container;
-                topElem.after(html);
-                var repl = topElem.next();
-                repl.hide();
-                topElem.detach();
+                var repl = replaceWithInvisibleHtml(topElem, html);
                 repl.fadeIn(fadeDuration);
             }, 
             fail :  function(r) {
@@ -279,13 +233,55 @@ $(function() {
 
 
     /* ==========================================================
-     * Image upload
+     * Comments show/hide
      *
-     *  - on click                  : upload image via ajax
      * ========================================================== */
-    $(document).on("click", ".item_img", function(e){
+    $(document).on("click", ".comments_header", function(e) {
+        var $elem = $(this);
+        if ($elem.attr('disabled')) return false;
+        $elem.attr('disabled', 'disabled');
+        var $commentList = $(this).next(); // $(this).parent().find(".comment_list");
+        var showing = $commentList.is(":visible");
+        var effect = "blind";
+        var opts = {direction: "up"};
+        var dur = fadeDuration;
+        var cb = function() { $elem.removeAttr('disabled'); };
+        if (showing) {
+            $commentList.hide(effect, opts, dur, cb);
+        } else {
+            $commentList.show(effect, opts, dur, cb);
+        }
         return false;
     });
+
+
+    var commentActionSel = ".post_comment_text";
+    $(document).on("CreateAndAddCommentDone", commentActionSel, function(e, response){
+        var $elem = $(this);
+
+        var commentId = response.ans.id;
+        var comment = new Comment(commentId);
+        
+        var newDiv = $('<div></div>');
+        var commentItems = $elem.parent().prev();
+        commentItems.append(newDiv);
+        asyncUpdate(newDiv, "comment", {
+            action: function() { return Red.Utils.remoteRenderRecord(comment, {
+                partial: "comments/comment",
+                as: "comment"
+            }); }, 
+            done:   function(html) {
+                var newItem = replaceWithInvisibleHtml(newDiv, html);
+                newItem.fadeIn(fadeDuration);
+                $elem.val("");
+            },
+            fail:   function(response) { 
+                newDiv.html("Failed to load comment"); 
+            }
+        });        
+        return false;
+    });
+        
 
 });
 
