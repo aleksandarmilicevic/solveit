@@ -1,5 +1,5 @@
 <div class="comment">
   <b><%= render :partial => 'shared/user_logo',  
-                :locals => {:user => current_user} %></b>
+                :locals => {:user => comment.sender} %></b>
   <span><%= comment.message %></span>
 </div>

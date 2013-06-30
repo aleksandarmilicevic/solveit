@@ -126,14 +126,14 @@ $(function() {
         // hack to escapeHTML(title)
         var title = $('<div/>').text(response.ans.title).html();
         // TODO: this should be returned by the server by rendering the appropriate template
-        var sec = "<a class=\"block red-autotrigger\" href=\"#\" " +
-                      "style=\"opacity: 0\"" +
-                      "data-record-id=\"" + response.ans.id + "\" " + 
-                      "data-event-name=\"LinkToRecord\"" + 
-                      "data-param-target=\"${new Block(" + response.ans.id + ")}" +
-                      "data-param-saveTarget=\"true\"" +
-                      "data-param-fieldName=\"title\"" +
-                      "data-field-name=\"fieldValue\">" + title + "</a>";
+        var sec = "<a class=\"block red-autotrigger\" href=\"#\"" +
+                      " style=\"opacity: 0\"" +
+                      " data-record-id=\"" + response.ans.id + "\"" + 
+                      " data-event-name=\"LinkToRecord\"" + 
+                      " data-param-target=\"${new Block(" + response.ans.id + ")}\"" +
+                      " data-param-saveTarget=\"true\"" +
+                      " data-param-fieldName=\"title\"" +
+                      " data-field-name=\"fieldValue\">" + title + "</a>";
         var child = $.parseHTML(sec);
         blocksContainer.append(child);
         $(child).animate({
