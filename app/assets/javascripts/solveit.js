@@ -129,8 +129,11 @@ $(function() {
         var sec = "<a class=\"block red-autotrigger\" href=\"#\" " +
                       "style=\"opacity: 0\"" +
                       "data-record-id=\"" + response.ans.id + "\" " + 
-                      "data-record-cls=\"Block\" " + 
-                      "data-field-name=\"title\">" + title + "</a>";
+                      "data-event-name=\"LinkToRecord\"" + 
+                      "data-param-target=\"${new Block(" + response.ans.id + ")}" +
+                      "data-param-saveTarget=\"true\"" +
+                      "data-param-fieldName=\"title\"" +
+                      "data-field-name=\"fieldValue\">" + title + "</a>";
         var child = $.parseHTML(sec);
         blocksContainer.append(child);
         $(child).animate({
