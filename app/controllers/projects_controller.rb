@@ -22,6 +22,7 @@ class ProjectsController < ApplicationController
   
   def show
     @project = find_project
+    # render 'project'
   end
   
   def edit

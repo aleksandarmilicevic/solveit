@@ -1,11 +1,25 @@
+<%# @param item [Figure] %>
 
 <div style="position:relative">
 
+  <% @item_actions = capture do %>
+  <button class="action_btn upload_figure"
+          data-trigger-event="UploadFigure"
+          data-param-figure="${new Figure(<%=item.id%>)}"
+          data-loading-div="#loadingDiv-<%=item.id%>"
+          data-img-container="#figure-container-<%=item.id%>">
+    <i class="icon-upload"></i>
+  </button>
+  <% end %>
+
+  <div id="figure-container-<%=item.id%>" class="figure-container">
   <%= render :partial => "items/fig-image",
              :object => item, 
              :as => "item" %>
+  </div>
 
-  <div class="loadingDiv"><div class="loadingInnerDiv">
+  <div id="loadingDiv-<%=item.id%>" class="loadingDiv">
+  <div class="loadingInnerDiv">
     <!-- <div id="block_1" class="barlittle"></div> -->
     <!-- <div id="block_2" class="barlittle"></div> -->
     <!-- <div id="block_3" class="barlittle"></div> -->
@@ -14,6 +28,7 @@
 
     <div class="ball"></div>
     <div class="ball1"></div>
-  </div></div>
+  </div>
+  </div>
 
 </div>

@@ -1,0 +1,9 @@
+
+<%# @param block [Block] %>
+
+<h4><%= block.title %></h4>
+
+<div id="block_items">
+  <div style="height: 5000px; width: 1px; float: right"></div>
+  <%= render :collection => block.items, :partial => "items/item_preview", :as => "item" %>
+</div>

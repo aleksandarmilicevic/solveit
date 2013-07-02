@@ -1,27 +1,44 @@
 <%# @param item [Item] %>
 
 <div class="block_item ui-widget ui-resizable ui-draggable" id="item-<%= item.id %>">
-  <div class="ui-widget-header block_item_header">
-    <div class="item_title">
-      <%= h item.class.relative_name %>
-    </div>
-    <div class="to_right">
-      <a href="#" class="delete_item_button"
-         data-trigger-event="DeleteRecord"
-         data-param-target="${Red.createRecord('<%= item.class.relative_name %>', <%= item.id %>)}"
-         data-container-id="item-<%= item.id %>"><i class="icon-remove"></i></a>
-    </div>
-  </div>
+  <!-- <div class="ui-widget-header block_item_header"> -->
+  <!--   <div class="item_title"> -->
+  <!--     <%= h item.class.relative_name %> -->
+  <!--   </div> -->
+  <!--   <div class="to_right"> -->
+  <!--     <a href="#" class="delete_item_button" -->
+  <!--        data-trigger-event="DeleteRecord" -->
+  <!--        data-param-target="${Red.createRecord('<%= item.class.relative_name %>', <%= item.id %>)}" -->
+  <!--        data-container-id="item-<%= item.id %>"><i class="icon-remove"></i></a> -->
+  <!--   </div> -->
+  <!-- </div> -->
+
+  <% @item_content = render :partial => "items/#{item.class.name.underscore}",
+            :object => item, 
+            :as => "item" %>
 
   <div class="block_item_content">
-  <%= render :partial => "items/#{item.class.name.underscore}",
-             :object => item, 
-             :as => "item" %>
+    <div class="item_actions_tbar">
+      <%= @item_actions %>
+      
+      <button class="action_btn"
+              data-toggle-show="#comment_list_<%= item.id %>">
+        <i class="icon-comment"></i>
+      </button>
+      <button class="action_btn"
+              data-trigger-event="DeleteRecord"
+              data-param-target="${new <%= item.class.relative_name %>(<%= item.id %>)}"
+              data-container-id="item-<%= item.id %>">
+        <i class="icon-remove"></i>
+      </button>
+    </div>
+      <%= @item_content %>
   </div>
 
   <div class="block_item_comments">
-    <span class="comments_header">Comments</span>
-    <div class="comment_list">
+    <!-- <span class="comments_header" -->
+    <!--       data-toggle-show="#comment_list_<%= item.id %>">Comments</span> -->
+    <div id="comment_list_<%= item.id %>" class="comment_list">
       <div class="comment_items">
         <%= render :collection => item.comments, 
                    :partial => "comments/comment", :as => "comment" %>
@@ -43,7 +60,7 @@
   <script type="text/javascript">
     $("#item-<%= item.id %>").draggable({
       // handle: ".block_item_header",
-      cancel: ".block_item_content, .block_item_comments",
+      // cancel: ".block_item_content, .block_item_comments",
       containment: "parent", 
       scroll: true, 
       scrollSensitivity: 20,

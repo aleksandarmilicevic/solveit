@@ -3,8 +3,6 @@
 
 .block_item_comments {
 
-  margin-top: 5px;
-  border-top: 1px solid $grayLight;
   font-size: 10pt;
 
   .comments_header {
@@ -25,6 +23,7 @@
 
   .comment_list {
     display: none;
+    border-top: 1px solid $grayLight;
     margin-top: 10px;
   }
 

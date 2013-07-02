@@ -1,0 +1,11 @@
+<%# @param item [Item] %>
+
+<div class="block_item ui-widget ui-resizable ui-draggable" id="item-<%= item.id %>">
+
+  <div class="block_item_content">
+  <%= render :partial => "items/#{item.class.name.underscore}",
+             :object => item, 
+             :as => "item" %>
+  </div>
+
+</div>

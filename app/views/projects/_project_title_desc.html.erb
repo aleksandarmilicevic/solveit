@@ -1,0 +1,13 @@
+<%# @param project [Project] %>
+
+<h1 class="proj_title">
+  <%= autosave_fld project, :title, :id => "project_title" %>
+  <i class="icon-x hiding show_desc" 
+     data-toggle-show="#proj_desc_<%= project.id %>">
+  </i>
+</h1>
+<div id="proj_desc_<%= project.id %>" class="row proj_desc">
+  <%= autosave_fld project, :description, 
+        :tag => "pre", 
+        :escape_body => false, :multiline => true %>
+</div>

@@ -1,13 +1,16 @@
 <% provide(:title, "Project '#{@project.title}'") %>
 
-<h1><%= autosave_fld @project, :title, :id => "project_title" %></h1>
+<%= render :partial => 'projects/project_title_desc', 
+           :object => @project, 
+           :as => "project" %>
 
-<%= link_to "Edit", edit_project_path(@project), class: "btn", id: "edit_project_btn" %>
+<!-- <h1><%= autosave_fld @project, :title, :id => "project_title" %></h1> -->
+<!-- <%= link_to "Edit", edit_project_path(@project), class: "btn", id: "edit_project_btn" %> -->
 
-<div class="row">
-  <h3>Description</h3>
-  <%= autosave_fld @project, :description, :tag => "pre", :escape_body => false, :multiline => true %>
-</div>
+<!-- <div class="row"> -->
+<!--   <h3>Description</h3> -->
+<!--   <%= autosave_fld @project, :description, :tag => "pre", :escape_body => false, :multiline => true %> -->
+<!-- </div> -->
 
 <div class="row">
   <h3>Content</h3>
