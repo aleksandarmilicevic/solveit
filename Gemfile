@@ -37,6 +37,7 @@ gem 'parser'
 #gem 'image_science'
 #gem 'pothoven-attachment_fu'
 gem 'imagesize'
+gem 'sourcify'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

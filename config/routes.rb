@@ -6,6 +6,7 @@ SolveIT::Application.routes.draw do
   match 'recordRenderer' => 'recordRenderer#index'  
 
   match 'fetchFigure' => 'fetchFigure#src'
+  match 'fetchFile' => 'fetchItemFile#src'
 
   resources :users
   resources :projects

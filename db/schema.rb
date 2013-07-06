@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130629210226) do
+ActiveRecord::Schema.define(:version => 20130703165934) do
 
   create_table "auth_users", :force => true do |t|
     t.string   "name"
@@ -24,15 +24,13 @@ ActiveRecord::Schema.define(:version => 20130629210226) do
   end
 
   create_table "blocks", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
     t.string   "title"
+    t.integer  "projects_as_block_id"
   end
 
-  create_table "blocks_items_items", :id => false, :force => true do |t|
-    t.integer "block_id"
-    t.integer "item_id"
-  end
+  add_index "blocks", ["projects_as_block_id"], :name => "index_blocks_on_projects_as_block_id"
 
   create_table "comments", :force => true do |t|
     t.integer  "sender_id"
@@ -96,12 +94,17 @@ ActiveRecord::Schema.define(:version => 20130629210226) do
     t.string   "text"
     t.string   "html"
     t.string   "type"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
     t.integer  "image_id"
     t.integer  "gui_settings_id"
+    t.string   "caption"
+    t.integer  "blocks_as_item_id"
+    t.integer  "file_id"
   end
 
+  add_index "items", ["blocks_as_item_id"], :name => "index_items_on_blocks_as_item_id"
+  add_index "items", ["file_id"], :name => "index_items_on_file_id"
   add_index "items", ["gui_settings_id"], :name => "index_items_on_gui_settings_id"
   add_index "items", ["image_id"], :name => "index_items_on_image_id"
 
@@ -113,11 +116,6 @@ ActiveRecord::Schema.define(:version => 20130629210226) do
     t.datetime "updated_at",   :null => false
     t.string   "title"
     t.text     "description"
-  end
-
-  create_table "projects_blocks_blocks", :id => false, :force => true do |t|
-    t.integer "project_id"
-    t.integer "block_id"
   end
 
   create_table "roles", :force => true do |t|

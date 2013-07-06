@@ -1,17 +1,6 @@
 <%# @param item [Item] %>
 
-<div class="block_item ui-widget ui-resizable ui-draggable" id="item-<%= item.id %>">
-  <!-- <div class="ui-widget-header block_item_header"> -->
-  <!--   <div class="item_title"> -->
-  <!--     <%= h item.class.relative_name %> -->
-  <!--   </div> -->
-  <!--   <div class="to_right"> -->
-  <!--     <a href="#" class="delete_item_button" -->
-  <!--        data-trigger-event="DeleteRecord" -->
-  <!--        data-param-target="${Red.createRecord('<%= item.class.relative_name %>', <%= item.id %>)}" -->
-  <!--        data-container-id="item-<%= item.id %>"><i class="icon-remove"></i></a> -->
-  <!--   </div> -->
-  <!-- </div> -->
+<div class="block_item block_item_<%=item.class.relative_name%>" id="item-<%= item.id %>">
 
   <% @item_content = render :partial => "items/#{item.class.name.underscore}",
             :object => item, 
@@ -48,7 +37,7 @@
         <%= autotrigger CreateAndAddComment, :message,
             :params => { :item => item },
             :tag => "input",
-            :class => "post_comment_text",
+            :class => "post_comment_text cancel_draggable",
             :multiline => false,
             :type => "text",
             :escape_body => true %>
@@ -60,7 +49,7 @@
   <script type="text/javascript">
     $("#item-<%= item.id %>").draggable({
       // handle: ".block_item_header",
-      // cancel: ".block_item_content, .block_item_comments",
+      cancel: ".cancel_draggable",
       containment: "parent", 
       scroll: true, 
       scrollSensitivity: 20,

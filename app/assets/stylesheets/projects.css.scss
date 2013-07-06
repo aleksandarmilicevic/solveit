@@ -13,6 +13,30 @@
   margin-right: auto;
 }
 
+.figure-caption {
+  font-size: 12px;
+
+  .caption-text {
+    display: inline-block;
+    cursor: pointer;
+    padding: 0px 3px 0px 3px;
+    vertical-align: top;
+  }
+}
+
+.file_icon {
+  width: 96px;
+  height: 96px;
+}
+
+.file-meta {
+  text-align: center;
+  font-size: 12px; 
+  width: 100px;
+  @include border-radius(5px);
+  background-color: $grayLighter;
+}
+
 .show_desc {
   vertical-align: middle;
   cursor: pointer;
@@ -108,6 +132,10 @@
     padding: 5px;
     border: 1px solid $gray;
     @include border-radius(5px);
+  }
+
+  .block_item.block_item_Attachment {
+    border: none;
   }
 
   .block_item_header {

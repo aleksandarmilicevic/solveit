@@ -17,6 +17,12 @@
              :object => item, 
              :as => "item" %>
   </div>
+  
+  <div id="figure-caption-<%=item.id%>" class="figure-caption">
+    <b>Figure <%=item.section_index%>.<%=item.item_index%></b>&nbsp;
+    <%= autosave_fld item, :caption, :multiline => true, :escape_body => false, 
+                           :class => "caption-text cancel_draggable" %>
+  </div>
 
   <div id="loadingDiv-<%=item.id%>" class="loadingDiv">
   <div class="loadingInnerDiv">

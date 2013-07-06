@@ -30,16 +30,23 @@ Red::Dsl.data_model do
     description: Text,
     creator: User,
     is_private: Bool,
-    blocks: (set Block),
   } do
+    field blocks: (set Block), :owned => true
+
     validates :creator, :presence => true
   end
   
   record Block, {
     title: String,
-    items: (set Item)
   } do
+    field items: (set Item), :owned => true
+
     # TODO validates :projects_as_block, :non_empty
+
+    def section_index
+      #TODO change the model to make it a seq
+      self.projects_as_block.blocks.index(self)
+    end
   end
 
   record Comment, {
@@ -53,8 +60,20 @@ Red::Dsl.data_model do
   record Item do
     abstract
 
-    field gui_settings: RedLib::Util::HashRecord
+    field gui_settings: RedLib::Util::HashRecord, :owned => true
     field comments: (set Comment), :owned => true
+    field caption: String
+
+    #TODO validate that blocks_as_item exists
+
+    def section_index
+      self.blocks_as_item.section_index
+    end
+
+    def item_index
+      #TODO change the model to make it a seq
+      self.blocks_as_item.items.index(self)
+    end
   end
   
   record PlainText < Item, {
@@ -75,6 +94,11 @@ Red::Dsl.data_model do
       ar = image ? image.aspect_ratio : 1
       "width: #{h*ar}px; height: #{h}px"
     end
+  end
+
+  record Attachment < Item, {
+  } do
+    field file: RedLib::Util::FileRecord, :owned => true
   end
   
 end

@@ -64,13 +64,32 @@ $(function() {
             partial: "blocks/block",
             as: "block"
           });
-          //return Red.Utils.remoteAction("/blocks/"+blocks[0].id+"?partial");
         }, 
         fail:   function() { 
           getBlockContentDOM().html("Failed to load block content"); 
         }
       });
     }
+  };
+
+  var renderAndInsertNewItem = function(itemCls, itemId) {
+    var item = Red.Meta.createRecord(itemCls, itemId);
+    
+    var newItemDiv = $('<div></div>');
+    getBlockItemsDOM().append(newItemDiv);
+    asyncUpdate(newItemDiv, "block", {
+      action: function() { return Red.Utils.remoteRenderRecord(item, {
+        partial: "items/item",
+        as: "item"
+      }); }, 
+      done:   function(html) {
+        var newItem = replaceWithInvisibleHtml(newItemDiv, html);
+        newItem.fadeIn(fadeDuration);
+      },
+      fail:   function(response) { 
+        newItemDiv.html("Failed to load item content"); 
+      }
+    });        
   };
   
   var sectionChanged = function() {
@@ -156,30 +175,14 @@ $(function() {
     });
   });
   
-  var newItemSel = "#block_content_toolbar>[data-trigger-event='CreateRecordAndLink']";
+  var newItemSel = "#block_content_toolbar>.toolbar-btn[data-trigger-event]";
   $(document).on("CreateRecordAndLinkDone", newItemSel, function(event, response){
-    var itemCls = $(this).attr('data-param-className');
-    var itemId = response.ans.id;
-    var item = Red.createRecord(itemCls, itemId);
-    
-    var newItemDiv = $('<div></div>');
-    getBlockItemsDOM().append(newItemDiv);
-    asyncUpdate(newItemDiv, "block", {
-      action: function() { return Red.Utils.remoteRenderRecord(item, {
-        partial: "items/item",
-        as: "item"
-      }); }, 
-      done:   function(html) {
-        // var newItem = $(html);
-        // newItem.hide();
-        // newItemDiv.replaceWith(newItem);
-        var newItem = replaceWithInvisibleHtml(newItemDiv, html);
-        newItem.fadeIn(fadeDuration);
-      },
-      fail:   function(response) { 
-        newItemDiv.html("Failed to load item content"); 
-      }
-    });        
+    renderAndInsertNewItem($(this).attr('data-param-className'), response.ans.id);    
+  });
+
+  Red.Events.subscribe_event_completed("CreateItemFromFile", function(data, ans) {
+    var newItem = ans;
+    renderAndInsertNewItem(newItem.__type__, newItem.id);
   });
   
   var delItemSel = "#block_items [data-trigger-event='DeleteRecord']";
@@ -261,8 +264,7 @@ $(function() {
       $elem.removeClass("hiding");
       $elem.addClass("showing");
     }
-  });
-  
+  });  
   
   var commentActionSel = ".post_comment_text";
   $(document).on("CreateAndAddCommentDone", commentActionSel, function(e, response){
