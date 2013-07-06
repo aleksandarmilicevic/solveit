@@ -2,8 +2,8 @@ SolveIT::Application.routes.draw do
 
   root :to => "home#index"
 
-  match 'event' => 'event#index'  
-  match 'recordRenderer' => 'recordRenderer#index'  
+  match 'event' => 'event#index'
+  match 'recordRenderer' => 'recordRenderer#index'
 
   match 'fetchFigure' => 'fetchFigure#src'
   match 'fetchFile' => 'fetchItemFile#src'

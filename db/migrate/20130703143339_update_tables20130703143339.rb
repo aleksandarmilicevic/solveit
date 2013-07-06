@@ -11,7 +11,7 @@ class UpdateTables20130703143339 < ActiveRecord::Migration
 
 
     # ------------------------------:
-    # migration for table blocks 
+    # migration for table blocks
     # ------------------------------:
 
     # new columns:
@@ -20,7 +20,7 @@ class UpdateTables20130703143339 < ActiveRecord::Migration
 
 
     # ------------------------------:
-    # migration for table items 
+    # migration for table items
     # ------------------------------:
 
     # new columns:

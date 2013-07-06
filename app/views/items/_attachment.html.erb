@@ -12,7 +12,7 @@
   </button>
   <% end %>
 
-  <% 
+  <%
      name = item.file.filename
      short_name = truncate(item.file.filename, length: 15)
      size = number_to_human_size(item.file.size)
@@ -21,19 +21,19 @@
   %>
   <div id="file-container-<%=item.id%>" class="file-container" title="<%= title %>">
     <a href="/fetchFile?id=<%=item.id%>" target="_blank">
-      <%= image_tag icon_src(item.file), class: "file_icon" %> 
+      <%= image_tag icon_src(item.file), class: "file_icon" %>
     </a>
-    <%= autosave_fld item.file, :filename, 
+    <%= autosave_fld item.file, :filename,
          :tag => "div",
-         :multiline => false, 
-         :escape_body => true, 
+         :multiline => false,
+         :escape_body => true,
          :body => short_name,
          :class => "file-meta cancel_draggable truncate-body",
          :"data-value" => name,
          :"data-length" => 15
     %>
   </div>
-  
+
 
   <div id="loadingDiv-<%=item.id%>" class="loadingDiv">
   <div class="loadingInnerDiv">

@@ -5,7 +5,7 @@ class FetchItemFileController < ApplicationController
       error "image not found", nil, 404
     else
       data = file.read_content
-      opts = send_data_opts.merge :filename => file.filename, 
+      opts = send_data_opts.merge :filename => file.filename,
                                   :type => file.content_type
       send_data data, opts
     end
@@ -20,13 +20,13 @@ class FetchItemFileController < ApplicationController
   def get_file
     find_item.file
   end
-  
+
   def find_item(item_id=nil)
     id = item_id || params[:id]
-    begin 
+    begin
       Item.find(id)
     rescue
       raise NotFoundError, "Item not found"
-    end    
+    end
   end
 end

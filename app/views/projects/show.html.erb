@@ -1,22 +1,22 @@
 <% provide(:title, "Project '#{@project.title}'") %>
 
-<%= render :partial => 'projects/project_title_desc', 
-           :object => @project, 
+<%= render :partial => 'projects/project_title_desc',
+           :object => @project,
            :as => "project" %>
 
 <div class="row">
   <h3>Content</h3>
-  
+
   <div class="project-blocks span2">
-      
+
       <%= render :partial => 'blocks_toolbar' %>
       <div class="blocks" id="project-blocks">
         <%= render :collection => @project.blocks, :partial => "block" %>
       </div>
-      
+
     </div>
     <div id="block_content" class="span10">
       <div id="no_block_selected">Please select a section on the left...</div>
     </div>
-    
+
 </div>

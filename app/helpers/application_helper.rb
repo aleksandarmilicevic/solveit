@@ -38,7 +38,7 @@ module ApplicationHelper
     return unless file_record
     check = Proc.new do |ctype|
       src = "file_types/#{ctype}.png"
-      if Rails.application.assets.find_asset(src) 
+      if Rails.application.assets.find_asset(src)
         puts "########### checking #{src}"
         return src
       end
@@ -48,7 +48,7 @@ module ApplicationHelper
       ext = file_record.filename.match(/[^\.]*$/).to_s.downcase
       @@transl[ext]
     end
-    
+
     begin
       check.call file_record.content_type.gsub("/", "__")
       check.call translate.call()

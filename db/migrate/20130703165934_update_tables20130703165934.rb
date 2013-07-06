@@ -13,7 +13,7 @@ class UpdateTables20130703165934 < ActiveRecord::Migration
 
 
     # ------------------------------:
-    # migration for table items 
+    # migration for table items
     # ------------------------------:
 
     # new columns:

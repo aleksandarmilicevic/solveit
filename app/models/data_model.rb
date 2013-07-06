@@ -10,21 +10,21 @@ include RedLib::Crud
 # Data model
 #===========================================================
 Red::Dsl.data_model do
-  
+
   record User < AuthUser, {
-  } 
-  
+  }
+
   record Role, {
     name: String
   }
-  
+
   record Group, {
     owner: User,
     members: Role * User,
-  } do 
+  } do
     validates :owner, :presence => true
   end
-  
+
   record Project, {
     title: String,
     description: Text,
@@ -35,7 +35,7 @@ Red::Dsl.data_model do
 
     validates :creator, :presence => true
   end
-  
+
   record Block, {
     title: String,
   } do
@@ -50,13 +50,13 @@ Red::Dsl.data_model do
   end
 
   record Comment, {
-    sender: User, 
+    sender: User,
     message: Text
   } do
     validates :sender, :presence => true
     validates :message, :presence => true
   end
-  
+
   record Item do
     abstract
 
@@ -75,15 +75,15 @@ Red::Dsl.data_model do
       self.blocks_as_item.items.index(self)
     end
   end
-  
+
   record PlainText < Item, {
     text: String,
   }
-  
+
   record HTMLText < Item, {
     html: String,
   }
-  
+
   record Figure < Item, {
     image: RedLib::Util::ImageRecord,
   } do
@@ -100,5 +100,5 @@ Red::Dsl.data_model do
   } do
     field file: RedLib::Util::FileRecord, :owned => true
   end
-  
+
 end

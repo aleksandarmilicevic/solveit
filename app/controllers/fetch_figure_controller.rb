@@ -1,5 +1,5 @@
 class FetchFigureController < FetchItemFileController
-  
+
   protected
 
   def send_data_opts
@@ -9,6 +9,6 @@ class FetchFigureController < FetchItemFileController
   def get_file
     find_item.image.file
   end
-  
+
 
 end

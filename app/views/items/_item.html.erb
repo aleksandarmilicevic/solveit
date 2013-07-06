@@ -3,13 +3,13 @@
 <div class="block_item block_item_<%=item.class.relative_name%>" id="item-<%= item.id %>">
 
   <% @item_content = render :partial => "items/#{item.class.name.underscore}",
-            :object => item, 
+            :object => item,
             :as => "item" %>
 
   <div class="block_item_content">
     <div class="item_actions_tbar">
       <%= @item_actions %>
-      
+
       <button class="action_btn"
               data-toggle-show="#comment_list_<%= item.id %>">
         <i class="icon-comment"></i>
@@ -29,7 +29,7 @@
     <!--       data-toggle-show="#comment_list_<%= item.id %>">Comments</span> -->
     <div id="comment_list_<%= item.id %>" class="comment_list">
       <div class="comment_items">
-        <%= render :collection => item.comments, 
+        <%= render :collection => item.comments,
                    :partial => "comments/comment", :as => "comment" %>
       </div>
 
@@ -50,8 +50,8 @@
     $("#item-<%= item.id %>").draggable({
       // handle: ".block_item_header",
       cancel: ".cancel_draggable",
-      containment: "parent", 
-      scroll: true, 
+      containment: "parent",
+      scroll: true,
       scrollSensitivity: 20,
       scrollSpeed: 20
     });

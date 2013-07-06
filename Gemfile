@@ -26,7 +26,7 @@ end
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-gem 'thin' 
+gem 'thin'
 #gem 'red-rails', :git => 'git@github.com:aleksandarmilicevic/red-rails.git'
 gem 'faye'
 gem 'ember-rails'

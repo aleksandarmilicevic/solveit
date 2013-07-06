@@ -2,7 +2,7 @@ Red::Dsl.event_model do
 
   event CreateProjectBlock do
     params {{
-        project: Project, 
+        project: Project,
         title: String
       }}
 
@@ -33,7 +33,7 @@ Red::Dsl.event_model do
     }
 
     ensures {
-      @img = RedLib::Util::ImageRecord.new 
+      @img = RedLib::Util::ImageRecord.new
       @img.file = file
       @img.try_infer_metadata
       @img.save!
@@ -62,7 +62,7 @@ Red::Dsl.event_model do
         @item = Figure.new
         ev = UploadFigure.new :figure => @item, :file => file
         ev.execute
-      else 
+      else
         Red.conf.log.debug "creating an attachment from file: #{file.filename}"
         @item = Attachment.new
         @item.file = file
@@ -78,7 +78,7 @@ Red::Dsl.event_model do
 
   event CreateAndAddComment do
     params {{
-        item: Item, 
+        item: Item,
         message: String
       }}
 
