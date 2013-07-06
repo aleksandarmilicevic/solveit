@@ -90,9 +90,14 @@ Red::Dsl.data_model do
 
     def image_gui_style
       #TODO read from gui_settings
-      h = 150;
-      ar = image ? image.aspect_ratio : 1
-      "width: #{h*ar}px; height: #{h}px"
+      gs = self.gui_settings.get("img.style") rescue nil
+      if gs
+        gs
+      else
+        h = 150;
+        ar = image ? image.aspect_ratio : 1
+        "width: #{h*ar}px; height: #{h}px"
+      end
     end
   end
 

@@ -1,6 +1,7 @@
 <%# @param item [Item] %>
 
-<div class="block_item block_item_<%=item.class.relative_name%>" id="item-<%= item.id %>">
+<div class="block_item block_item_<%=item.class.relative_name%>" id="item-<%= item.id %>"
+     style="<%= item.gui_settings.get('style') rescue '' %>">
 
   <% @item_content = render :partial => "items/#{item.class.name.underscore}",
             :object => item,
@@ -53,7 +54,18 @@
       containment: "parent",
       scroll: true,
       scrollSensitivity: 20,
-      scrollSpeed: 20
+      scrollSpeed: 20, 
+      stop: function() {
+        var $elem = $(this);
+        var style = $elem.attr('style');
+        var ev = new AddToHashField({
+          target: Red.Meta.createRecord(<%=item.class.name.inspect.html_safe%>, <%=item.id%>),
+          fieldName: "gui_settings",
+          key: "style",
+          value: style
+        });
+        ev.fire();
+      }
     });
   </script>
 </div>

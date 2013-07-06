@@ -9,6 +9,19 @@
 
   <% if item.image %>
     <script>
-    $("#figure-<%=item.id%>").resizable({aspectRatio: <%= item.image.aspect_ratio  %>});
+    $("#figure-<%=item.id%>").resizable({
+      aspectRatio: <%= item.image.aspect_ratio  %>,
+      stop: function() {
+        var $elem = $(this);
+        var style = $elem.attr('style');
+        var ev = new AddToHashField({
+          target: Red.Meta.createRecord("Figure", <%=item.id%>),
+          fieldName: "gui_settings",
+          key: "img.style",
+          value: style
+        });
+        ev.fire();
+      }
+    });
     </script>
   <% end %>

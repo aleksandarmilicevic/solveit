@@ -123,6 +123,7 @@
     height: 500px;
     resize: vertical;
     overflow-y: scroll;
+    position: relative;
   }
 
   .block_item {
@@ -131,6 +132,7 @@
     clear: none;
     padding: 5px;
     border: 1px solid $gray;
+    position: absolute;
     @include border-radius(5px);
   }
 
