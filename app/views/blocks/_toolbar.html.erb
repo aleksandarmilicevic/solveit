@@ -1,0 +1,37 @@
+<%# @param block [Block] %>
+
+  <div id="block_content_toolbar" class="btn-group">
+    <a id="create_text_item" class="btn toolbar-btn" href="#"
+       title="Create new plain text item"
+       data-trigger-event="CreateRecordAndLink"
+       data-param-className="PlainText"
+       data-param-target="${new Block(<%= block.id %>)}"
+       data-param-fieldName="items"
+       data-param-saveRecord="true">
+         Text
+    </a>
+    <a id="create_html_item" class="btn toolbar-btn" href="#"
+       title="Create new item rich text item"
+       data-trigger-event="CreateRecordAndLink"
+       data-param-className="HTMLText"
+       data-param-target="${new Block(<%= block.id %>)}"
+       data-param-fieldName="items"
+       data-param-saveRecord="true">
+         Rich Text
+    </a>
+    <a id="create_figure_item" class="btn toolbar-btn" href="#"
+       title="Create new figure"
+       data-trigger-event="CreateRecordAndLink"
+       data-param-className="Figure"
+       data-param-target="${new Block(<%= block.id %>)}"
+       data-param-fieldName="items"
+       data-param-saveRecord="true">
+         Figure
+    </a>
+    <a id="create_file_item" class="btn toolbar-btn" href="#"
+       title="Upload a file"
+       data-trigger-event="CreateItemFromFile"
+       data-param-block="${new Block(<%= block.id %>)}">
+         File
+    </a>
+  </div>

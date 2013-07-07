@@ -1,0 +1,11 @@
+<%# @param block [Block] %>
+<%# @param readonly [TrueClass, FalseClass] %>
+
+<% readonly rescue readonly = false %>
+
+<div id="block_items">
+  <div style="height: 5000px; width: 1px; float: right"></div>
+  <%= render :collection => block.items, 
+             :partial => "items/item", :as => "item",
+             :locals => { :readonly => readonly } %>
+</div>

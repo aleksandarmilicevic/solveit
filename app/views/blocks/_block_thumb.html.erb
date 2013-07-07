@@ -1,0 +1,40 @@
+<%# @param block [Block] %>
+
+  <% outer_id = "block-preview-outer-#{block.id}" %>
+  <% inner_id = "block-preview-inner-#{block.id}" %>
+  <% slider_id = "block-zoom-slider-#{block.id}" %>
+
+  <div class="block-preview-outer block" id="<%= outer_id %>"
+       data-record-id="<%= block.id %>">
+    <h4><%= autosave_fld block, :title, :class => "block-title" %></h4>
+
+    <div class="item_actions_tbar flush_left">
+      <div id="<%=slider_id%>" class="zoom-slider"></div>
+      <script type="text/javascript">
+        $('#<%=slider_id%>').slider({
+          orientation: "horizontal",
+          min: 0,
+          max: 150,
+          value: 50,
+          slide: function(event, ui) {
+            SolveIT.zoomTo('#<%=inner_id%>', ui.value / 100.0);
+          }
+        });
+      </script>
+    </div>
+    <div class="item_actions_tbar">
+      <button class="action_btn delete_block" 
+              data-trigger-event="DeleteRecord"
+              data-param-target="${new Block(<%= block.id %>)}"
+              data-block-div="#<%= outer_id %>">
+        <i class="icon-remove"></i>
+      </button>
+
+    </div>
+
+    <div class="block-preview-inner" id="<%=inner_id%>">
+      <%= render :partial => "blocks/block_items", 
+                 :object => block, :as => "block",
+                 :locals => { :readonly => true } %>
+    </div>
+  </div>

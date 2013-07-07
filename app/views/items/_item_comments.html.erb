@@ -1,0 +1,25 @@
+<%# @param item [Item] %>
+<%# @param comment_list_id [String] %>
+
+  <div class="block_item_comments">
+    <!-- <span class="comments_header" -->
+    <!--       data-toggle-show="#comment_list_<%= item.id %>">Comments</span> -->
+    <div id="<%= comment_list_id %>" class="comment_list">
+      <div class="comment_items">
+        <%= render :collection => item.comments,
+                   :partial => "comments/comment", :as => "comment" %>
+      </div>
+
+      <div class="post_comment">
+        <%= autotrigger CreateAndAddComment, :message,
+            :params => { :item => item },
+            :tag => "input",
+            :class => "post_comment_text cancel_draggable",
+            :multiline => false,
+            :type => "text",
+            :escape_body => true %>
+        <!-- <button class="icon-button"><i class="icon-share-alt"></i></button> -->
+      </div>
+    </div>
+  </div>
+

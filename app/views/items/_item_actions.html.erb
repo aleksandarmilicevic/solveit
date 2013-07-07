@@ -1,0 +1,19 @@
+<%# @param item [Item] %>
+<%# @param extra_actions [TrueClass, FalseClass] %>
+<%# @param comment_list_id [String] %>
+
+<% extra_actions rescue extra_actions = "" %>
+
+    <div class="item_actions_tbar">
+      <%= extra_actions %>
+      <button class="action_btn"
+              data-toggle-show="#<%= comment_list_id %>">
+        <i class="icon-comment"></i>
+      </button>
+      <button class="action_btn"
+              data-trigger-event="DeleteRecord"
+              data-param-target="${new <%= item.class.relative_name %>(<%= item.id %>)}"
+              data-container-id="item-<%= item.id %>">
+        <i class="icon-remove"></i>
+      </button>
+    </div>
