@@ -8,8 +8,11 @@
     <h1> My Projects </h1>
     <%= link_to "Create new project!", new_project_path, class: "btn btn-large", id: "new_proj" %>
     <ul style="text-align: left">
-    <%= render current_user.projects_as_creator,
-               :partial => "projects/project_linkto",
+    <%#= render :partial => "projects/project_linkto",
+               :collection => current_user.projects_as_creator,    
+               :as => "project" %>
+    <%= render :partial => "projects/project_linkto",
+               :collection => Project.all,    
                :as => "project" %>
     </ul>
   <% end %>
