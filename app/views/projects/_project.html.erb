@@ -3,44 +3,21 @@
 <%= render :partial => 'projects/project_title_desc', 
            :object => @project, 
            :as => "project" %>
-<%= render :partial => 'blocks_toolbar' %>
 
-<% project.blocks.each_with_index do |block, idx| %>
-  <div class="block-preview-outer"><div class="block-preview-inner">
-    <%= render :partial => "blocks/block_preview", :object => block, :as => "block" %>
-  </div></div>
+<button class="btn" id="create_block"
+        data-trigger-event="CreateProjectBlock"
+        data-param-project="${new Project(<%= @project.id %>)}"
+        data-param-title="<new section>">
+  Create new block</button>
+
+<div id="block_content" style="display:none" class="">
+
+</div>
+
+<div id="project_blocks">
+<% project.blocks.each do |block| %>
+  <%= render :partial => "blocks/block_thumb", 
+             :object => block, :as => "block",
+             :locals => { :readonly => true } %>
 <% end %>
-
-
-<!-- <% project.blocks.each_with_index do |block, idx| %> -->
-<!--   <% row = idx / 3 %> -->
-<!--   <% col = idx % 3 %> -->
-
-<!--   <%= col == 0 && row > 0 ? "</div>" : "" %> -->
-<!--   <%= col == 0 ? "<div class=\"row-fluid\">".html_safe : "" %> -->
-<!--   <div class="span4"> -->
-<!--     <%= render :partial => "block", :object => block, :as => "block" %> -->
-<!--   </div> -->
-<!--   <%= col == 0 ? "</div>".html_safe : "" %> -->
-<!-- <% end %> -->
-
-<!-- <div class="row"> -->
-<!--   <div class="project-blocks span2"> -->
-      
-<!--     <%= render :partial => 'blocks_toolbar' %> -->
-<!--     <div class="blocks" id="project-blocks"> -->
-<!--       <%= render :collection => project.blocks, :partial => "block" %> -->
-<!--     </div> -->
-      
-<!--   </div> -->
-<!--   <div id="block_content" class="span10"> -->
-<!--     <div id="no_block_selected">Please select a section on the left...</div> -->
-<!--   </div> -->
-<!-- </div> -->
-
-<!-- 
-<div class="container-fluid">
-  <div class="row-fluid">
-    
-  </div>
-</div> -->
+</div>

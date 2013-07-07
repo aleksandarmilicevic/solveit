@@ -4,6 +4,7 @@
 /* mixins, variables, etc. */
 
 $grayMediumLight: #eaeaea;
+$niceBlue: rgba(82,168,236,.8);
 
 @mixin box_sizing {
   -moz-box-sizing: border-box;
@@ -18,4 +19,13 @@ $grayMediumLight: #eaeaea;
 
 @mixin no-decoration {
   &:hover { text-decoration: none; }  
+}
+
+@mixin text-item {
+  padding: 5px;
+  margin: 0px;
+  margin-right: 5px;
+  min-width: 140px;
+  @include inline-blck;
+  @include no-decoration;
 }

@@ -11,178 +11,132 @@ Red.subscribe(function() {
   };
 }());
 
-var getBlockContainer  = function() { return $("#project-blocks"); };
-var getSelectedBlocks  = function() { return getBlockContainer().find(".block-selected"); };
+//TODO: move it to SolveIT
+var blockSelectedCls  = "block-selected";
+var getProjectBlocksDOM = function() { return $("#project_blocks"); };
+var getBlockContentDOM        = function() { return $("#block_content"); };
+var getBlockItemsDOM          = function() { return $("#block_items"); };
+
+var getSelectedBlocks         = function() { 
+  return getProjectBlocksDOM().find("." + blockSelectedCls); 
+};
 var getSelectedBlockRecords = function() {
     return getSelectedBlocks().map(function(idx, b) {return new Block($(b));});
 };
 
-$(function() {
+var selectBlock       = function(blck) { blck.addClass(blockSelectedCls); };
+var unselectBlock     = function(blck) { blck.removeClass(blockSelectedCls); };
+var isBlockSelected   = function(blck) { return blck.hasClass(blockSelectedCls); };
+var toggleSelection   = function(blck) { 
+  if (isBlockSelected(blck)) unselectBlock(blck); else selectBlock(blck); 
+};
+
+var SolveIT = {
+
+  fadeDuration: 500,
+
   /* ==========================================================
-   * Project blocks (sections)
-   *
-   *  - on click                  : select single block
-   *  - on dblClick               : edit block title
-   *  - on createProjectBlockDone : create and insert new block
+   * zoom in/out
    * ========================================================== */
 
-  var blockSelectedCls  = "block-selected";
-  var selectBlock       = function(blck) { blck.addClass(blockSelectedCls); };
-  var unselectBlock     = function(blck) { blck.removeClass(blockSelectedCls); };
-  var isBlockSelected   = function(blck) { return blck.hasClass(blockSelectedCls); };
-  var toggleSelection   = function(blck) { if (isBlockSelected(blck)) unselectBlock(blck); else selectBlock(blck); };
+  zoomStep: 0.05,
+  zoomTo: function(sel, zoomLevel) { $(sel).css("zoom", zoomLevel); },
+  zoomBy: function(sel, by) {
+    var $elem = $(sel);
+    var currZoom = Number($elem.css("zoom"));
+    SolveIT.zoomTo($elem, currZoom + by);
+  },
+  zoomIn: function(sel,by){SolveIT.zoomBy(sel, by||SolveIT.zoomStep); return false;},
+  zoomOut: function(sel,by){SolveIT.zoomBy(sel, -by||-SolveIT.zoomStep); return false; },
 
-  var getBlockContentDOM = function() { return $("#block_content"); };
-  var getBlockItemsDOM = function() { return $("#block_items"); };
-
-  var refreshDeleteBtn  = function()     {
-    if (getSelectedBlocks().size()>0) $("#delete_block").removeAttr('disabled');
-    else                              $("#delete_block").attr('disabled', 'disabled');
-  };
-
-  var replaceWithInvisibleHtml = function($elem, html) {
+  replaceWithInvisibleHtml: function($elem, html) {
     $elem.before(html);
     var repl = $elem.prev();
     repl.hide();
     $elem.detach();
     return repl;
-  };
+  },
+
+  renderAndAppendTo: function($container, renderer, cls, onDoneCont){
+    cls = Red.Utils.defaultTo(cls, "");
+    if (typeof(cls) === "function" && typeof(onDoneCont) === "undefined") {
+      onDoneCont = cls;
+      cls = "";
+    }
+    var newItemDiv = $('<div style="display:none"></div>');
+    $container.append(newItemDiv);
+    return renderer().
+      done(function(html) {
+        var newItem = SolveIT.replaceWithInvisibleHtml(newItemDiv, html);
+        newItem.fadeIn(SolveIT.fadeDuration, onDoneCont);
+      })
+      .fail(function(response) {
+        newItemDiv.html("Failed to load item content");
+      });
+
+    // Red.Utils.asyncUpdate(newItemDiv, cls, {
+    //   action: function() { return renderer(); },
+    //   done:   function(html, cont) {
+    //     var newItem = SolveIT.replaceWithInvisibleHtml(newItemDiv, html);
+    //     cont.cancel = true;
+    //     newItem.fadeIn(SolveIT.fadeDuration, cont);
+    //   },
+    //   fail:   function(response) {
+    //     newItemDiv.html("Failed to load item content");
+    //   }
+    // });
+  },
+
+  renderAndInsertNewItem: function(itemCls, itemId, $container) {
+    var item = Red.Meta.createRecord(itemCls, itemId);
+    SolveIT.renderAndAppendTo($container, function() {
+      return Red.Utils.remoteRenderRecord(item, {
+        partial: "items/item",
+        as: "item"
+      });
+    });
+  }
+
+};
+
+
+// /* ==========================================================
+//  * zoom in/out
+//  * ========================================================== */
+
+// var zoomStep = 0.05;
+// var zoomTo = function(sel, zoomLevel) { $(sel).css("zoom", zoomLevel); };
+// var zoomBy = function(sel, by) {
+//   var $elem = $(sel);
+//   var currZoom = Number($elem.css("zoom"));
+//   zoomTo($elem, currZoom + by);
+// };
+// var zoomIn = function(sel, by)  { zoomBy(sel, by || zoomStep); return false; };
+// var zoomOut = function(sel, by) { zoomBy(sel, -by || -zoomStep); return false; };
+
+
+/* ==========================================================
+ * bindings
+ * ========================================================== */
+
+$(function() {
 
   var asyncUpdate = Red.Utils.asyncUpdate;
   var readParam = Red.Utils.readParamValue;
   var readData = function(el, par) { return readParam(el, "data-" + par); } ;
 
-  var refreshCurrentSection = function() {
-    var blocks = getSelectedBlockRecords();
-    if (blocks.size() > 1) return;
-    if (blocks.size() == 0) {
-      getBlockContentDOM().html("<div id=\"no_block_selected\">Please select a section on the left...</div>");
-    } else {
-      asyncUpdate(getBlockContentDOM(), "block", {
-        action: function() {
-          return Red.Utils.remoteRenderRecord(blocks[0], {
-            partial: "blocks/block",
-            as: "block"
-          });
-        },
-        fail:   function() {
-          getBlockContentDOM().html("Failed to load block content");
-        }
-      });
-    }
-  };
-
-  var renderAndInsertNewItem = function(itemCls, itemId) {
-    var item = Red.Meta.createRecord(itemCls, itemId);
-
-    var newItemDiv = $('<div></div>');
-    getBlockItemsDOM().append(newItemDiv);
-    asyncUpdate(newItemDiv, "block", {
-      action: function() { return Red.Utils.remoteRenderRecord(item, {
-        partial: "items/item",
-        as: "item"
-      }); },
-      done:   function(html) {
-        var newItem = replaceWithInvisibleHtml(newItemDiv, html);
-        newItem.fadeIn(fadeDuration);
-      },
-      fail:   function(response) {
-        newItemDiv.html("Failed to load item content");
-      }
-    });
-  };
-
-  var sectionChanged = function() {
-    refreshDeleteBtn();
-    refreshCurrentSection();
-  };
-
-  /* ------------------------------------------------------------
-   * Handles the "click" event for all ".block" events.
-   *
-   *  - removes the "block-selected" css class from all other
-   *    blocks in the parent project;
-   *  - adds the same class to the clicked block.
-   * ------------------------------------------------------------ */
-  $(document).on("click", ".block", function(e) {
-    var $elem = $(this);
-    if (e.ctrlKey) {
-      toggleSelection($elem);
-    } else {
-      unselectBlock($elem.parent().find(".block"));
-      selectBlock($elem);
-    }
-    sectionChanged();
-  });
-
-  /* ------------------------------------------------------------
-   * Handles the "dblclick" event for all ".block" events.
-   *
-   *  - makes the block "contenteditable";
-   *  - assigns a "keypress" handler that makes it not
-   *    "contenteditable" when the return key is pressed;
-   *  - makes the block focuesed;
-   *  - assigns a "blur" handler which makes the block not
-   *    contenteditable.
-   * ------------------------------------------------------------ */
-  $(document).on("dblclick", ".block", function(e) {
-    var $elem = $(this);
-    $elem.prop("contenteditable", "true");
-    $elem.keypress(function(e) { if(e.which == 13) { $elem.blur(); } });
-    $elem.focus();
-    $elem.selectText();
-    $elem.on("blur", function() {$elem.prop("contenteditable", "false");});
-  });
-
-  var fadeDuration = 500;
-
-  /* ------------------------------------------------------------
-   * Creates and inserts a new block upon the "CreateProjectBlock"
-   * event completion.
-   * ------------------------------------------------------------ */
-  $("#create_block").on("CreateProjectBlockDone", function(event, response){
-    var blocksContainer = getBlockContainer();
-    // hack to escapeHTML(title)
-    var title = $('<div/>').text(response.ans.title).html();
-    // TODO: this should be returned by the server by rendering the appropriate template
-    var sec = "<a class=\"block red-autotrigger\" href=\"#\"" +
-          " style=\"opacity: 0\"" +
-          " data-record-id=\"" + response.ans.id + "\"" +
-          " data-event-name=\"LinkToRecord\"" +
-          " data-param-target=\"${new Block(" + response.ans.id + ")}\"" +
-          " data-param-saveTarget=\"true\"" +
-          " data-param-fieldName=\"title\"" +
-          " data-field-name=\"fieldValue\">" + title + "</a>";
-    var child = $.parseHTML(sec);
-    blocksContainer.append(child);
-    $(child).animate({
-      opacity: 1.0
-    }, fadeDuration, function() {
-      $(child).click();
-      $(child).dblclick();
-    });
-  });
-
-  $("#delete_block").on("DeleteRecordsDone", function(event, response){
-    // TODO: read the response to see which sections got deleted, as oppose to deleting the current selection.
-    var selectedBlocks = getSelectedBlocks();
-    if (selectedBlocks.size() == 0) return;
-    selectedBlocks.animate({
-      opacity: 0.0
-    }, fadeDuration, function() {
-      selectedBlocks.detach();
-      sectionChanged();
-    });
-  });
+  var getBlockContentDOM = function() { return $("#block_content"); };
+  var getBlockItemsDOM = function() { return $("#block_items"); };
 
   var newItemSel = "#block_content_toolbar>.toolbar-btn[data-trigger-event]";
   $(document).on("CreateRecordAndLinkDone", newItemSel, function(event, response){
-    renderAndInsertNewItem($(this).attr('data-param-className'), response.ans.id);
+    var cls = $(this).attr('data-param-className');
+    SolveIT.renderAndInsertNewItem(cls, response.ans.id, getBlockItemsDOM());
   });
 
   Red.Events.subscribe_event_completed("CreateItemFromFile", function(data, ans) {
     var newItem = ans;
-    renderAndInsertNewItem(newItem.__type__, newItem.id);
+    SolveIT.renderAndInsertNewItem(newItem.__type__, newItem.id, getBlockItemsDOM());
   });
 
   var delItemSel = "#block_items [data-trigger-event='DeleteRecord']";
@@ -197,7 +151,7 @@ $(function() {
       action: function() { return redEvent.fire(); },
       done:   function(r) {
         titleElem.html("Success!");
-        container.fadeOut(fadeDuration, function() {container.detach();});
+        container.fadeOut(SolveIT.fadeDuration, function() {container.detach();});
       },
       fail :  function(r) {
         titleElem.html("Failed to delete item!");
@@ -230,11 +184,11 @@ $(function() {
       done:   function(html) {
         console.debug("Successfully uploaded and reloaded image");
         var topElem = container;
-        // var repl = replaceWithInvisibleHtml(topElem, html);
-        // repl.fadeIn(fadeDuration);
+        // var repl = SolveIT.replaceWithInvisibleHtml(topElem, html);
+        // repl.fadeIn(SolveIT.fadeDuration);
         container.hide();
         container.html(html);
-        container.fadeIn(fadeDuration);
+        container.fadeIn(SolveIT.fadeDuration);
       },
       fail :  function(r) {
         console.debug("Failed to upload and reload image");
@@ -252,7 +206,7 @@ $(function() {
    * ========================================================== */
 
   $(document).on("click", "[data-toggle-show]", function(e) {
-    Red.Utils.toggleShow($(this), {duration: fadeDuration});
+    Red.Utils.toggleShow($(this), {duration: SolveIT.fadeDuration});
   });
 
   $(document).on("click", ".show_desc", function(e) {
@@ -284,8 +238,8 @@ $(function() {
         });
       },
       done:   function(html) {
-        var newItem = replaceWithInvisibleHtml(newDiv, html);
-        newItem.fadeIn(fadeDuration);
+        var newItem = SolveIT.replaceWithInvisibleHtml(newDiv, html);
+        newItem.fadeIn(SolveIT.fadeDuration);
         $elem.val("");
       },
       fail:   function(response) {

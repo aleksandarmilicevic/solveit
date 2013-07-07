@@ -1,71 +1,52 @@
 <%# @param item [Item] %>
+<%# @param readonly [TrueClass, FalseClass] %>
+
+<% readonly rescue readonly = false %>
 
 <div class="block_item block_item_<%=item.class.relative_name%>" id="item-<%= item.id %>"
      style="<%= item.gui_settings.get('style') rescue '' %>">
 
   <% @item_content = render :partial => "items/#{item.class.name.underscore}",
             :object => item,
-            :as => "item" %>
+            :as => "item", 
+            :locals => { :readonly => readonly } %>
 
   <div class="block_item_content">
-    <div class="item_actions_tbar">
-      <%= @item_actions %>
-
-      <button class="action_btn"
-              data-toggle-show="#comment_list_<%= item.id %>">
-        <i class="icon-comment"></i>
-      </button>
-      <button class="action_btn"
-              data-trigger-event="DeleteRecord"
-              data-param-target="${new <%= item.class.relative_name %>(<%= item.id %>)}"
-              data-container-id="item-<%= item.id %>">
-        <i class="icon-remove"></i>
-      </button>
-    </div>
-      <%= @item_content %>
+    <% unless readonly %>
+      <%= render :partial => "items/item_actions", 
+                 :object => item, :as => "item",
+                 :locals => {:extra_actions => @item_actions, 
+                             :comment_list_id => "comment_list_#{item.id}"} %>
+    <% end %>
+    
+    <%= @item_content %>
   </div>
 
-  <div class="block_item_comments">
-    <!-- <span class="comments_header" -->
-    <!--       data-toggle-show="#comment_list_<%= item.id %>">Comments</span> -->
-    <div id="comment_list_<%= item.id %>" class="comment_list">
-      <div class="comment_items">
-        <%= render :collection => item.comments,
-                   :partial => "comments/comment", :as => "comment" %>
-      </div>
-
-      <div class="post_comment">
-        <%= autotrigger CreateAndAddComment, :message,
-            :params => { :item => item },
-            :tag => "input",
-            :class => "post_comment_text cancel_draggable",
-            :multiline => false,
-            :type => "text",
-            :escape_body => true %>
-        <!-- <button class="icon-button"><i class="icon-share-alt"></i></button> -->
-      </div>
-    </div>
-  </div>
-
-  <script type="text/javascript">
-    $("#item-<%= item.id %>").draggable({
-      // handle: ".block_item_header",
-      cancel: ".cancel_draggable",
-      containment: "parent",
-      scroll: true,
-      scrollSensitivity: 20,
-      scrollSpeed: 20, 
-      stop: function() {
-        var $elem = $(this);
-        var style = $elem.attr('style');
-        var ev = new AddToHashField({
-          target: Red.Meta.createRecord(<%=item.class.name.inspect.html_safe%>, <%=item.id%>),
-          fieldName: "gui_settings",
-          key: "style",
-          value: style
-        });
-        ev.fire();
-      }
-    });
-  </script>
+  <% unless readonly %>
+    <%= render :partial => "items/item_comments", 
+               :object => item, :as => "item",
+               :locals => {:comment_list_id => "comment_list_#{item.id}"} %>  
+  
+    <script type="text/javascript">
+      $("#item-<%= item.id %>").draggable({
+        // handle: ".block_item_header",
+        cancel: ".cancel_draggable",
+        containment: "parent",
+        scroll: true,
+        scrollSensitivity: 20,
+        scrollSpeed: 20, 
+        stop: function() {
+          var $elem = $(this);
+          var style = $elem.attr('style');
+          var ev = new AddToHashField({
+            target: Red.Meta.createRecord(<%=item.class.name.inspect.html_safe%>, <%=item.id%>),
+            fieldName: "gui_settings",
+            key: "style",
+            value: style
+          });
+          ev.fire();
+        }
+      });
+    </script>
+  <% end %>
 </div>

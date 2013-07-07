@@ -1,3 +1,15 @@
+<%# @param item [Figure] %>
+<%# @param readonly [TrueClass, FalseClass] %>
+
+<% readonly rescue readonly = false %>
+
+<% if readonly %>
+
+  <div class="html_item_readonly" disabled="disabled">
+    <%= item.html.html_safe %>
+  </div>
+
+<% else %>
 
   <%= autosave_fld item, :html,
                    :tag => "div",
@@ -5,4 +17,4 @@
                    :multiline => "true",
                    :escape_body => false %>
 
-
+<% end %>

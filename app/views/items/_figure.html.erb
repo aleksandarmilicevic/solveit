@@ -1,40 +1,46 @@
 <%# @param item [Figure] %>
+<%# @param readonly [TrueClass, FalseClass] %>
+
+<% readonly rescue readonly = false %>
 
 <div style="position:relative">
 
-  <% @item_actions = capture do %>
-  <button class="action_btn upload_figure"
-          data-trigger-event="UploadFigure"
-          data-param-figure="${new Figure(<%=item.id%>)}"
-          data-loading-div="#loadingDiv-<%=item.id%>"
-          data-img-container="#figure-container-<%=item.id%>">
-    <i class="icon-upload"></i>
-  </button>
-  <% end %>
+  <% unless readonly; @item_actions = capture do %>
+    <button class="action_btn upload_figure"
+            data-trigger-event="UploadFigure"
+            data-param-figure="${new Figure(<%=item.id%>)}"
+            data-loading-div="#loadingDiv-<%=item.id%>"
+            data-img-container="#figure-container-<%=item.id%>">
+      <i class="icon-upload"></i>
+    </button>
+  <% end; end %>
 
   <div id="figure-container-<%=item.id%>" class="figure-container">
   <%= render :partial => "items/fig-image",
              :object => item,
-             :as => "item" %>
+             :as => "item", 
+             :locals => { :readonly => readonly } %>
   </div>
 
-  <div id="figure-caption-<%=item.id%>" class="figure-caption">
-    <b>Figure <%=item.section_index%>.<%=item.item_index%></b>&nbsp;
-    <%= autosave_fld item, :caption, :multiline => true, :escape_body => false,
-                           :class => "caption-text cancel_draggable" %>
-  </div>
-
-  <div id="loadingDiv-<%=item.id%>" class="loadingDiv">
-  <div class="loadingInnerDiv">
-    <!-- <div id="block_1" class="barlittle"></div> -->
-    <!-- <div id="block_2" class="barlittle"></div> -->
-    <!-- <div id="block_3" class="barlittle"></div> -->
-    <!-- <div id="block_4" class="barlittle"></div> -->
-    <!-- <div id="block_5" class="barlittle"></div> -->
-
-    <div class="ball"></div>
-    <div class="ball1"></div>
-  </div>
-  </div>
+  <% unless readonly %>
+    <div id="figure-caption-<%=item.id%>" class="figure-caption">
+      <b>Figure <%=item.section_index%>.<%=item.item_index%></b>&nbsp;
+      <%= autosave_fld item, :caption, :multiline => true, :escape_body => false,
+                             :class => "caption-text cancel_draggable" %>
+    </div>
+  
+    <div id="loadingDiv-<%=item.id%>" class="loadingDiv">
+      <div class="loadingInnerDiv">
+        <!-- <div id="block_1" class="barlittle"></div> -->
+        <!-- <div id="block_2" class="barlittle"></div> -->
+        <!-- <div id="block_3" class="barlittle"></div> -->
+        <!-- <div id="block_4" class="barlittle"></div> -->
+        <!-- <div id="block_5" class="barlittle"></div> -->
+    
+        <div class="ball"></div>
+        <div class="ball1"></div>
+      </div>
+    </div>
+  <% end %>
 
 </div>

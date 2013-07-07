@@ -7,16 +7,16 @@
 <div class="row">
   <h3>Content</h3>
 
-  <div class="project-blocks span2">
+  <!-- this is right-floated so it goes above the side bar -->
+  <div id="block_content" class="span10">
+    <div id="no_block_selected">Please select a section on the left...</div>
+  </div>
 
-      <%= render :partial => 'blocks_toolbar' %>
-      <div class="blocks" id="project-blocks">
-        <%= render :collection => @project.blocks, :partial => "block" %>
-      </div>
-
+  <div class="project-blocks side_bar">
+    <%= render :partial => 'blocks_toolbar' %>
+    <div class="blocks" id="project_blocks">
+      <%= render :collection => @project.blocks, :partial => "block" %>
     </div>
-    <div id="block_content" class="span10">
-      <div id="no_block_selected">Please select a section on the left...</div>
-    </div>
+  </div>
 
 </div>

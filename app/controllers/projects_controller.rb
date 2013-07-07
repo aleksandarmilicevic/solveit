@@ -22,7 +22,11 @@ class ProjectsController < ApplicationController
   
   def show
     @project = find_project
-    # render 'project'
+    if params.key? "old"
+      render 
+    else
+      render 'project'
+    end
   end
   
   def edit
