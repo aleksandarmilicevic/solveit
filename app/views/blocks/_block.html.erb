@@ -11,7 +11,7 @@
 <% end %>
 
 <!-- <div style="float:right">TODO: USE AUTOVIEW FOR THE TITLE</div> -->
-<%= autosave_fld block, :title, :tag => "h4" %>
+<%= autosave_fld block, :title, :tag => "h4", :autoview => true %>
 
 <%= render :partial => "blocks/block_items", 
            :object => block, :as => "block",

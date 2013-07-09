@@ -91,7 +91,7 @@ Red::Dsl.data_model do
     def image_gui_style
       #TODO read from gui_settings
       gs = self.gui_settings.get("img.style") rescue nil
-      if gs
+      if gs && !gs.empty?
         gs
       else
         h = 150;

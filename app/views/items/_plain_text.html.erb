@@ -3,14 +3,12 @@
 
 <% readonly rescue readonly = false %>
 
-<% if readonly %>
-  <textarea class="plain_text_item_readonly" disabled="disabled">
-    <%= item.text %>
-  </textarea>
-<% else %>
+
+  <% cls = readonly ? "plain_text_item_readonly" : "plain_text_item_edit" %>
+
   <%= autosave_fld item, :text,
                    :tag => "textarea",
-                   :class => "plain_text_item_edit cancel_draggable",
+                   :class => "#{cls} cancel_draggable",
                    :multiline => true,
                    :escape_body => true %>
-<% end %>
+

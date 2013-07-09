@@ -24,8 +24,9 @@ $niceBlue: rgba(82,168,236,.8);
 @mixin text-item {
   padding: 5px;
   margin: 0px;
-  margin-right: 5px;
-  min-width: 140px;
+  min-width: 40px;
+  border: 1px solid $grayLight;
+  @include border-radius(5px);
   @include inline-blck;
   @include no-decoration;
 }

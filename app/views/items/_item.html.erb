@@ -6,7 +6,8 @@
 <div class="block_item block_item_<%=item.class.relative_name%>" id="item-<%= item.id %>"
      style="<%= item.gui_settings.get('style') rescue '' %>">
 
-  <% @item_content = render :partial => "items/#{item.class.name.underscore}",
+  <% @item_actions = "";
+     @item_content = render :partial => "items/#{item.class.name.underscore}",
             :object => item,
             :as => "item", 
             :locals => { :readonly => readonly } %>

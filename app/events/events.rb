@@ -38,6 +38,7 @@ Red::Dsl.event_model do
       @img.try_infer_metadata
       @img.save!
       figure.image = img
+      figure.gui_settings.set("img.style", "") rescue nil
       figure.save!
     }
   end

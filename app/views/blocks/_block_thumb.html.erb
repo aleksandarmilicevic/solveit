@@ -6,7 +6,7 @@
 
   <div class="block-preview-outer block" id="<%= outer_id %>"
        data-record-id="<%= block.id %>">
-    <h4><%= autosave_fld block, :title, :class => "block-title" %></h4>
+    <h4><%= autosave_fld block, :title, :class => "block-title", :autoview => true %></h4>
 
     <div class="item_actions_tbar flush_left">
       <div id="<%=slider_id%>" class="zoom-slider"></div>
@@ -33,6 +33,7 @@
     </div>
 
     <div class="block-preview-inner" id="<%=inner_id%>">
+      <div class="cover"></div>
       <%= render :partial => "blocks/block_items", 
                  :object => block, :as => "block",
                  :locals => { :readonly => true } %>

@@ -3,18 +3,13 @@
 
 <% readonly rescue readonly = false %>
 
-<% if readonly %>
 
-  <div class="html_item_readonly" disabled="disabled">
-    <%= item.html.html_safe %>
-  </div>
+  <% cls = readonly ? "html_item_readonly" : "html_item_edit" %>
 
-<% else %>
 
   <%= autosave_fld item, :html,
                    :tag => "div",
-                   :class => "html_item_edit cancel_draggable",
+                   :class => "#{cls} cancel_draggable",
                    :multiline => "true",
                    :escape_body => false %>
 
-<% end %>

@@ -125,15 +125,11 @@
   position: relative;
 
   .block_item {
-    margin: 5px;
-    padding: 5px;
-    border: 1px solid $gray;
+    margin: 0px;
+    padding: 0px;
     position: absolute;
-    @include border-radius(5px);
-  }
-
-  .block_item.block_item_Attachment {
-    border: none;
+    top: 40px;
+    left: 0px;
   }
 
   .block_item_header {
@@ -180,6 +176,16 @@
   }
 }
 
+.cover {
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 .side_bar {
   width: 13%;
   /* float: left;  */
@@ -216,6 +222,19 @@
     &:hover {
       opacity: 0.7;
     }
+  }
+}
+
+.item_actions_tbar.move_above {
+  bottom: 100%;
+  right: 0;
+  top: auto;
+  left: auto;
+  margin: 0px;
+  margin-bottom: 1px;
+
+  .action_btn {
+    margin: 0px;
   }
 }
 
@@ -267,10 +286,6 @@
     height: 100%;
     resize: none;
     overflow: hidden;
-
-    .block_item {
-      border: none;
-    }
   }
 
 }

@@ -56,6 +56,7 @@ $(function() {
    *  - adds the same class to the clicked block.
    * ------------------------------------------------------------ */
   $(document).on("click", ".side_bar .block", function(e) {
+    var oldSelection = getSelectedBlocks();
     var $elem = $(this);
     if (e.ctrlKey) {
       toggleSelection($elem);
@@ -63,7 +64,11 @@ $(function() {
       unselectBlock($elem.parent().find(".block"));
       selectBlock($elem);
     }
-    sectionChanged();
+    var newSelection = getSelectedBlocks();
+    if (!(newSelection.size() == oldSelection.size() == 1 &&
+         newSelection[0] == oldSelection[0])) {
+      sectionChanged();
+    }
   });
 
   /* ------------------------------------------------------------
