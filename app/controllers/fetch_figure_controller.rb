@@ -1,5 +1,7 @@
 class FetchFigureController < FetchItemFileController
 
+  async
+
   protected
 
   def send_data_opts

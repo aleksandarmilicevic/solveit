@@ -2,6 +2,7 @@ require 'red/stdlib/web/auth/model'
 require 'red/stdlib/crud/model'
 require 'red/stdlib/util/image'
 require 'red/stdlib/util/hash_record'
+require 'red/stdlib/util/render'
 
 include RedLib::Web::Auth
 include RedLib::Crud
