@@ -4,7 +4,7 @@
 <% readonly rescue readonly = false %>
 
   <img id="figure-<%=item.id%>"
-       src="<%= item.image ? "/fetchFigure?id=#{item.id}" : '#'%>" 
+       src="/fetchFigure?id=<%=item.id%>"
        alt="<%= item.image.file.filename rescue 'no image uploaded' %>"
        style="<%= item.image_gui_style %>"
        class="figure">

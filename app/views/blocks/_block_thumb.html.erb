@@ -38,4 +38,8 @@
                  :object => block, :as => "block",
                  :locals => { :readonly => true } %>
     </div>
+
+    <div class="block-footer">
+      <b>last modified:</b>&nbsp;<%= block.updated_at.in_time_zone(Time.zone).to_formatted_s(:long)  %>
+    </div>
   </div>

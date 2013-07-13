@@ -4,7 +4,7 @@
 <% readonly rescue readonly = false %>
 
 <div class="block_item block_item_<%=item.class.relative_name%>" id="item-<%= item.id %>"
-     style="<%= item.gui_settings.get('style') rescue '' %>">
+     style="<%= autoexpr {item.gui_settings.get('style') rescue ''} %>">
 
   <% @item_actions = "";
      @item_content = render :partial => "items/#{item.class.name.underscore}",
@@ -36,6 +36,7 @@
         scroll: true,
         scrollSensitivity: 20,
         scrollSpeed: 20, 
+        grid: [20, 20],
         stop: function() {
           var $elem = $(this);
           var style = $elem.attr('style');

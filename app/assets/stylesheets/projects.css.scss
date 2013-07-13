@@ -288,6 +288,13 @@
     overflow: hidden;
   }
 
+  .block-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
+
 }
 
 button#create_block {

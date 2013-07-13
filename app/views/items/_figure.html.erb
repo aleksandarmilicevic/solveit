@@ -25,7 +25,7 @@
   <% unless readonly %>
     <div id="figure-caption-<%=item.id%>" class="figure-caption">
       <b>Figure <%=item.section_index%>.<%=item.item_index%></b>&nbsp;
-      <%= autosave_fld item, :caption, :multiline => true, :escape_body => false,
+      <%= autosave_fld item, :caption, :multiline => true, :escape_body => true,
                              :class => "caption-text cancel_draggable" %>
     </div>
   

@@ -22,12 +22,12 @@ class ProjectsController < ApplicationController
   
   def show
     @project = find_project
-    if params.key? "old"
-      render 
-    else
-      render 'project'
-    end
-  end
+    tpl = (params.key? "old") ? 'show' : 'project'
+    # text = autoview :view => 'projects', :template => tpl, 
+    #                 :locals => {"@project" => @project}
+    # render :text => text, :layout => true
+    render tpl
+   end
   
   def edit
     @project = find_project

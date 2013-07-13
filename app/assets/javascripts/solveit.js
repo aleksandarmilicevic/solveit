@@ -50,11 +50,19 @@ var SolveIT = {
   zoomOut: function(sel,by){SolveIT.zoomBy(sel, -by||-SolveIT.zoomStep); return false; },
 
   replaceWithInvisibleHtml: function($elem, html) {
-    $elem.before(html);
-    var repl = $elem.prev();
-    repl.hide();
-    $elem.detach();
-    return repl;
+    if (typeof(html) === "string") {
+      $elem.before(html);
+      var repl = $elem.prev();
+      repl.hide();
+      $elem.detach();
+      return repl;
+    } 
+    if (html instanceof jQuery) {
+      $elem.before(html);
+      $elem.detach();
+      return html;
+    }
+    throw "invalid 'html' argument";
   },
 
   renderAndAppendTo: function($container, renderer, cls, onDoneCont){
@@ -73,18 +81,6 @@ var SolveIT = {
       .fail(function(response) {
         newItemDiv.html("Failed to load item content");
       });
-
-    // Red.Utils.asyncUpdate(newItemDiv, cls, {
-    //   action: function() { return renderer(); },
-    //   done:   function(html, cont) {
-    //     var newItem = SolveIT.replaceWithInvisibleHtml(newItemDiv, html);
-    //     cont.cancel = true;
-    //     newItem.fadeIn(SolveIT.fadeDuration, cont);
-    //   },
-    //   fail:   function(response) {
-    //     newItemDiv.html("Failed to load item content");
-    //   }
-    // });
   },
 
   renderAndInsertNewItem: function(itemCls, itemId, $container) {
@@ -98,21 +94,6 @@ var SolveIT = {
   }
 
 };
-
-
-// /* ==========================================================
-//  * zoom in/out
-//  * ========================================================== */
-
-// var zoomStep = 0.05;
-// var zoomTo = function(sel, zoomLevel) { $(sel).css("zoom", zoomLevel); };
-// var zoomBy = function(sel, by) {
-//   var $elem = $(sel);
-//   var currZoom = Number($elem.css("zoom"));
-//   zoomTo($elem, currZoom + by);
-// };
-// var zoomIn = function(sel, by)  { zoomBy(sel, by || zoomStep); return false; };
-// var zoomOut = function(sel, by) { zoomBy(sel, -by || -zoomStep); return false; };
 
 
 /* ==========================================================
@@ -184,10 +165,10 @@ $(function() {
       done:   function(html) {
         console.debug("Successfully uploaded and reloaded image");
         var topElem = container;
-        // var repl = SolveIT.replaceWithInvisibleHtml(topElem, html);
-        // repl.fadeIn(SolveIT.fadeDuration);
         container.hide();
-        container.html(html);
+        // container.html(html);
+        container.empty();
+        container.append(html);
         container.fadeIn(SolveIT.fadeDuration);
       },
       fail :  function(r) {

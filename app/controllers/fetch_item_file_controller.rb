@@ -1,4 +1,7 @@
 class FetchItemFileController < ApplicationController
+
+  async
+
   def src
     file = get_file rescue nil
     if file.nil?
