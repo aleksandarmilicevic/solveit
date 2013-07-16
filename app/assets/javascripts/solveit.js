@@ -201,33 +201,33 @@ $(function() {
     }
   });
 
-  var commentActionSel = ".post_comment_text";
-  $(document).on("CreateAndAddCommentDone", commentActionSel, function(e, response){
-    var $elem = $(this);
+  // var commentActionSel = ".post_comment_text";
+  // $(document).on("CreateAndAddCommentDone", commentActionSel, function(e, response){
+  //   var $elem = $(this);
 
-    var commentId = response.ans.id;
-    var comment = new Comment(commentId);
+  //   var commentId = response.ans.id;
+  //   var comment = new Comment(commentId);
 
-    var newDiv = $('<div></div>');
-    var commentItems = $elem.parent().prev();
-    commentItems.append(newDiv);
-    asyncUpdate(newDiv, "comment", {
-      action: function() {
-        return Red.Utils.remoteRenderRecord(comment, {
-          partial: "comments/comment",
-          as: "comment"
-        });
-      },
-      done:   function(html) {
-        var newItem = SolveIT.replaceWithInvisibleHtml(newDiv, html);
-        newItem.fadeIn(SolveIT.fadeDuration);
-        $elem.val("");
-      },
-      fail:   function(response) {
-        newDiv.html("Failed to load comment");
-      }
-    });
-    return false;
-  });
+  //   var newDiv = $('<div></div>');
+  //   var commentItems = $elem.parent().prev();
+  //   commentItems.append(newDiv);
+  //   asyncUpdate(newDiv, "comment", {
+  //     action: function() {
+  //       return Red.Utils.remoteRenderRecord(comment, {
+  //         partial: "comments/comment",
+  //         as: "comment"
+  //       });
+  //     },
+  //     done:   function(html) {
+  //       var newItem = SolveIT.replaceWithInvisibleHtml(newDiv, html);
+  //       newItem.fadeIn(SolveIT.fadeDuration);
+  //       $elem.val("");
+  //     },
+  //     fail:   function(response) {
+  //       newDiv.html("Failed to load comment");
+  //     }
+  //   });
+  //   return false;
+  // });
 
 });

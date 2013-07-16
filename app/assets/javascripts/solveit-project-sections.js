@@ -65,10 +65,10 @@ $(function() {
       selectBlock($elem);
     }
     var newSelection = getSelectedBlocks();
-    if (!(newSelection.size() == oldSelection.size() == 1 &&
-         newSelection[0] == oldSelection[0])) {
+    // if (!(newSelection.size() == oldSelection.size() == 1 &&
+    //      newSelection[0] == oldSelection[0])) {
       sectionChanged();
-    }
+    //}
   });
 
   /* ------------------------------------------------------------
