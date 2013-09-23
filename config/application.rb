@@ -2,6 +2,7 @@ require File.expand_path('../boot', __FILE__)
 
 #TODO: remove
 $LOAD_PATH << File.expand_path('../../../red/lib', __FILE__)
+$LOAD_PATH << File.expand_path('../../../alloy_ruby/lib', __FILE__)
 
 require 'rails/all'
 require 'red/red'
@@ -26,6 +27,7 @@ module SolveIT
     # -- all .rb files in that directory are automatically loaded.
 
     red_root = Pathname.new(File.expand_path('../../../red', __FILE__))
+
 
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += %W(#{config.root}/lib)

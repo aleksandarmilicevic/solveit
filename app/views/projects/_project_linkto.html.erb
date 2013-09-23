@@ -1,1 +1,30 @@
-<li><%= link_to project.title, project %></li>
+<!-- <li><%#= link_to project.title, project %></li> -->
+
+<div id="projects">
+ <div class="project">
+  <div class="projectname">
+    <div>
+      <%#= autosave_fld project, :title, :id => "project_home_title" %>
+      <%= link_to project.title, project %>
+    </div>
+  </div>
+  <div class="collaborators">
+     by <span class="creator"><%=project.creator.name%></span>, 
+     last modified:&nbsp;<%= project.updated_at.in_time_zone(Time.zone).to_formatted_s(:long)  %>
+  </div>			
+  <div class="projectdescription">
+    <%= autosave_fld project, :description, 
+        :tag => "pre", 
+        :escape_body => false, :multiline => true %>
+  </div>
+ </div>
+</div>
+
+
+<!-- color:#000; font-weight:bold; font-size:28px; margin-top:140px; font-family:helvetica neue; -->
+
+<!-- style="color:#054158; margin-top:6px; font-family:tahoma; font-size:14px; font-weight:bold;" -->
+
+<!-- style="margin-top:5px; margin-top:6px; line-height:1.1; color:#1C1C25; font-family:helvetica neue; text-align:justify;" -->
+
+<!-- style="font-size:22px; float:left; margin-left:-20px;" -->

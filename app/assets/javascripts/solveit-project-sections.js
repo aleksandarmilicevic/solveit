@@ -65,6 +65,7 @@ $(function() {
       selectBlock($elem);
     }
     var newSelection = getSelectedBlocks();
+    //TODO: 
     // if (!(newSelection.size() == oldSelection.size() == 1 &&
     //      newSelection[0] == oldSelection[0])) {
       sectionChanged();

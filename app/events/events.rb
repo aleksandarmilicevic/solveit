@@ -92,7 +92,7 @@ Red::Dsl.event_model do
       c.sender = from.user
       c.save!
       item.comments << c
-      item.save!
+      # item.save!
       c
     }
   end

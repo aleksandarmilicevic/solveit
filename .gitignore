@@ -12,7 +12,7 @@
 /db/*_file_store
 
 # Ignore all logfiles and tempfiles.
-/log/*.log
+/log/*
 /tmp
 
 # Ignore emacs backup files

@@ -6,11 +6,26 @@
 <header class="navbar navbar-fixed-top navbar-inverse">
   <div class="navbar-inner">
     <div id="header_container" class="container">
-      <%= link_to "SolveIT", root_path, id: "logo" %>
+      <%#= link_to "BellLabs", root_path, id: "logo" %>
+      <div id="header_company_top">
+        <%= link_to "BellLabs", root_path, id: "logo" %>
+      </div>
       <nav>
         <ul id="header_menu" class="nav pull-right">
           <li><%= link_to root_path, class: "menu_item" do %>
-                <i class="icon-home icon-white"></i> Home
+                <i class="icon-pencil icon-white"></i> Projects
+              <% end %>
+          </li>
+          <li><%= link_to root_path, class: "menu_item" do %>
+                <i class="icon-file icon-white"></i> Protocols
+              <% end %>
+          </li>
+          <li><%= link_to root_path, class: "menu_item" do %>
+                <i class="icon-book icon-white"></i> Library
+              <% end %>
+          </li>
+          <li><%= link_to root_path, class: "menu_item" do %>
+                <i class="icon-fire icon-white"></i> Idea Box
               <% end %>
           </li>
           <li><%= link_to '#', class: "menu_item" do %>

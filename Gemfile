@@ -28,9 +28,10 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'thin'
 #gem 'red-rails', :git => 'git@github.com:aleksandarmilicevic/red-rails.git'
+#gem 'alloy_rails'
 gem 'faye'
 gem 'ember-rails'
-gem 'parser'
+gem 'parser',  "~>2.0.0.pre7"
 #gem "paperclip", "~> 3.0"
 #gem "paperclip", :git => "git://github.com/thoughtbot/paperclip.git"
 #gem 'remotipart', '~> 1.0'

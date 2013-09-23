@@ -12,7 +12,7 @@
                :collection => current_user.projects_as_creator,    
                :as => "project" %>
     <%= render :partial => "projects/project_linkto",
-               :collection => Project.all,    
+               :collection => Project.find(:all, :order => "updated_at").reverse,
                :as => "project" %>
     </ul>
   <% end %>

@@ -59,7 +59,7 @@ Red::Dsl.data_model do
   end
 
   record Item do
-    abstract
+    set_abstract
 
     field gui_settings: RedLib::Util::HashRecord, :owned => true
     field comments: (set Comment), :owned => true

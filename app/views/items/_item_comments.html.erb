@@ -4,8 +4,11 @@
   <div class="block_item_comments">
     <div id="<%= comment_list_id %>" class="comment_list">
       <div class="comment_items">
-        <%= autoview lambda{{:collection => item.comments, :escape_body => true,
+        <%= autoview lambda{{:collection => item.comments,
                              :partial => "comments/comment", :as => "comment"}} %>
+        <%# item.comments.each do |comm| %>
+          <%#= render :partial => "comments/comment", :as => "comment", :object => comm %>
+        <%# end %>
       </div>
 
       <div class="post_comment">
