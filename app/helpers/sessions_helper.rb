@@ -21,7 +21,7 @@ module SessionsHelper
   end
 
   def current_user
-    @current_user ||= User.find_by_remember_token(cookies[:remember_token])
+    @current_user ||= User.all.find{|u| u.remember_token == cookies[:remember_token]}  #User.find_by_remember_token(cookies[:remember_token])
   end
 
 end

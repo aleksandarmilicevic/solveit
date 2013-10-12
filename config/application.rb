@@ -2,7 +2,7 @@ require File.expand_path('../boot', __FILE__)
 
 #TODO: remove
 $LOAD_PATH << File.expand_path('../../../red/lib', __FILE__)
-$LOAD_PATH << File.expand_path('../../../alloy_ruby/lib', __FILE__)
+$LOAD_PATH << File.expand_path('../../../arby/lib', __FILE__)
 
 require 'rails/all'
 require 'red/red'
